@@ -1,0 +1,36 @@
+[gd_scene load_steps=2 format=3 uid="uid://bhyov1qc2hxra"]
+
+[ext_resource type="PackedScene" uid="uid://bqhsfc8id16x1" path="res://dungeonlayouteditor/Rooms/Room.tscn" id="1_7b6de"]
+
+[node name="NormalRoom" instance=ExtResource("1_7b6de")]
+room_type = "Normal"
+
+[node name="Right" parent="Connections" index="0"]
+position = Vector2(384, 0)
+direction = "RIGHT"
+
+[node name="Down" parent="Connections" index="1"]
+position = Vector2(0, 256)
+direction = "DOWN"
+
+[node name="Left" parent="Connections" index="2"]
+position = Vector2(-384, 0)
+direction = "LEFT"
+
+[node name="Up" parent="Connections" index="3"]
+position = Vector2(0, -256)
+direction = "UP"
+
+[node name="ColorRect" parent="." index="2"]
+offset_left = -384.0
+offset_top = -256.0
+offset_right = 384.0
+offset_bottom = 256.0
+color = Color(0, 0.337255, 0.337255, 1)
+
+[node name="Label" parent="." index="3"]
+offset_left = -64.0
+offset_top = -32.0
+offset_right = 44.0
+offset_bottom = -6.0
+text = "Normal Room"

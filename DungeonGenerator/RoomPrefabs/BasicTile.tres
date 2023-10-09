@@ -1,0 +1,21 @@
+[gd_resource type="TileSet" load_steps=4 format=3 uid="uid://bhgxw71uumtfg"]
+
+[ext_resource type="Texture2D" uid="uid://cqnykaf43w178" path="res://DungeonGenerator/RoomPrefabs/LVL1/Assets/TilesetInteriorFloor.png" id="1_hub8i"]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_2bwdy"]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_1qdo6"]
+texture = ExtResource("1_hub8i")
+0:6/0 = 0
+1:6/0 = 0
+2:6/0 = 0
+2:7/0 = 0
+2:8/0 = 0
+1:8/0 = 0
+0:8/0 = 0
+0:7/0 = 0
+1:7/0 = 0
+
+[resource]
+sources/0 = SubResource("TileSetAtlasSource_2bwdy")
+sources/1 = SubResource("TileSetAtlasSource_1qdo6")

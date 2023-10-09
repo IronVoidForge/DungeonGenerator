@@ -1,0 +1,29 @@
+[gd_scene load_steps=4 format=3 uid="uid://dhvs3n5ifdpcw"]
+
+[ext_resource type="Script" path="res://dungeonlayouteditor/main.gd" id="1_cocx4"]
+[ext_resource type="Script" path="res://dungeonlayouteditor/EditorObject.gd" id="4_avkfv"]
+[ext_resource type="PackedScene" uid="uid://dvn1tavqre8gn" path="res://dungeonlayouteditor/room_select.tscn" id="5_orgbc"]
+
+[node name="Main" type="Node2D"]
+script = ExtResource("1_cocx4")
+
+[node name="Layout" type="Node2D" parent="."]
+
+[node name="EditorObject" type="Node2D" parent="."]
+script = ExtResource("4_avkfv")
+
+[node name="Sprite2D" type="Sprite2D" parent="EditorObject"]
+
+[node name="RoomSelect" parent="." instance=ExtResource("5_orgbc")]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 512.0
+offset_top = -648.0
+offset_right = 844.0
+offset_bottom = -403.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Camera2D" type="Camera2D" parent="."]
+zoom = Vector2(0.5, 0.5)

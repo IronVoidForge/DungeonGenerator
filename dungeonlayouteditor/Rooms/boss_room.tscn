@@ -1,0 +1,41 @@
+[gd_scene load_steps=3 format=3 uid="uid://jyhhtwm72vru"]
+
+[ext_resource type="PackedScene" uid="uid://bqhsfc8id16x1" path="res://dungeonlayouteditor/Rooms/Room.tscn" id="1_2a5c8"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_yxn70"]
+
+[node name="BossRoom" instance=ExtResource("1_2a5c8")]
+room_type = "Boss"
+
+[node name="CollisionShape2D" parent="." index="0"]
+shape = SubResource("RectangleShape2D_yxn70")
+
+[node name="Right" parent="Connections" index="0"]
+position = Vector2(512, 0)
+direction = "RIGHT"
+
+[node name="Down" parent="Connections" index="1"]
+position = Vector2(0, 384)
+direction = "DOWN"
+
+[node name="Left" parent="Connections" index="2"]
+position = Vector2(-512, 0)
+direction = "LEFT"
+
+[node name="Up" parent="Connections" index="3"]
+position = Vector2(0, -384)
+direction = "UP"
+
+[node name="ColorRect" parent="." index="2"]
+offset_left = -512.0
+offset_top = -384.0
+offset_right = 512.0
+offset_bottom = 384.0
+color = Color(0.639216, 0.2, 0.219608, 1)
+
+[node name="Label" parent="." index="3"]
+offset_left = -40.0
+offset_top = -24.0
+offset_right = 64.0
+offset_bottom = 24.0
+text = "Boss Room"

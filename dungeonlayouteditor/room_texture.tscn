@@ -1,0 +1,13 @@
+[gd_scene load_steps=2 format=3 uid="uid://ds2iqhw1npki1"]
+
+[ext_resource type="Script" path="res://dungeonlayouteditor/RoomTexture.gd" id="1_0xnhl"]
+
+[node name="RoomTexture" type="TextureRect"]
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("1_0xnhl")
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 23.0

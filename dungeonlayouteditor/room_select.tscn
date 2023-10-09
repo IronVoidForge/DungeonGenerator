@@ -1,0 +1,68 @@
+[gd_scene load_steps=5 format=3 uid="uid://dvn1tavqre8gn"]
+
+[ext_resource type="PackedScene" uid="uid://ddngmrdhju5tb" path="res://dungeonlayouteditor/Rooms/room_buttons/room_start.tscn" id="1_ljhtr"]
+[ext_resource type="Script" path="res://dungeonlayouteditor/room_select.gd" id="1_uhjgq"]
+[ext_resource type="PackedScene" uid="uid://dvcvt03vab3a3" path="res://dungeonlayouteditor/Rooms/room_buttons/room_boss.tscn" id="4_fg7ua"]
+[ext_resource type="PackedScene" uid="uid://djg32lvs1ea0j" path="res://dungeonlayouteditor/Rooms/room_buttons/room_normal.tscn" id="4_vrmqy"]
+
+[node name="RoomSelect" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 328.0
+offset_bottom = 240.0
+mouse_filter = 1
+script = ExtResource("1_uhjgq")
+
+[node name="TabContainer" type="TabContainer" parent="."]
+layout_mode = 0
+offset_right = 704.0
+offset_bottom = 512.0
+
+[node name="Rooms" type="TabBar" parent="TabContainer"]
+layout_mode = 2
+mouse_filter = 1
+
+[node name="ScrollContainer" type="ScrollContainer" parent="TabContainer/Rooms"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="TabContainer/Rooms/ScrollContainer"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="TabContainer/Rooms/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="RoomStart" parent="TabContainer/Rooms/ScrollContainer/VBoxContainer/HBoxContainer" instance=ExtResource("1_ljhtr")]
+layout_mode = 2
+
+[node name="RoomBoss" parent="TabContainer/Rooms/ScrollContainer/VBoxContainer/HBoxContainer" instance=ExtResource("4_fg7ua")]
+layout_mode = 2
+
+[node name="ConnectButton" type="CheckButton" parent="TabContainer/Rooms/ScrollContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "Connect"
+
+[node name="RearrangeButton" type="CheckButton" parent="TabContainer/Rooms/ScrollContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "Rearrange"
+
+[node name="RotateButton" type="Button" parent="TabContainer/Rooms/ScrollContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = " Rotate "
+
+[node name="SaveButton" type="Button" parent="TabContainer/Rooms/ScrollContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "Save Layout"
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="TabContainer/Rooms/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="RoomNormal" parent="TabContainer/Rooms/ScrollContainer/VBoxContainer/HBoxContainer2" instance=ExtResource("4_vrmqy")]
+layout_mode = 2
+
+[connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="." to="." method="_on_mouse_exited"]

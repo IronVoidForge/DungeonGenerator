@@ -1,0 +1,69 @@
+[gd_scene load_steps=8 format=3]
+
+[ext_resource type="Script" path="res://dungeonlayouteditor/Layout.gd" id="1_gkrv7"]
+[ext_resource type="PackedScene" path="res://dungeonlayouteditor/Rooms/normal_room.tscn" id="2_vmfh8"]
+[ext_resource type="Script" path="res://dungeonlayouteditor/Rooms/Room.gd" id="3_h3uwa"]
+[ext_resource type="PackedScene" path="res://dungeonlayouteditor/Rooms/boss_room.tscn" id="4_fsb78"]
+[ext_resource type="PackedScene" path="res://dungeonlayouteditor/Rooms/start_room.tscn" id="5_qro3l"]
+[ext_resource type="PackedScene" path="res://dungeonlayouteditor/connection_line.tscn" id="6_2m08t"]
+[ext_resource type="Script" path="res://dungeonlayouteditor/connection_line.gd" id="7_blmgu"]
+
+[node name="Layout" type="Node2D"]
+script = ExtResource("1_gkrv7")
+
+[node name="NormalRoom" type="RigidBody2D" parent="." instance=ExtResource("2_vmfh8")]
+position = Vector2(-725.85, -17.15)
+input_pickable = true
+gravity_scale = 0.0
+sleeping = true
+lock_rotation = true
+freeze_mode = 1
+script = ExtResource("3_h3uwa")
+
+[node name="BossRoom" type="RigidBody2D" parent="." instance=ExtResource("4_fsb78")]
+position = Vector2(557.999, 307.85)
+input_pickable = true
+gravity_scale = 0.0
+sleeping = true
+lock_rotation = true
+freeze_mode = 1
+script = ExtResource("3_h3uwa")
+
+[node name="_RigidBody2D_97" type="RigidBody2D" parent="." instance=ExtResource("2_vmfh8")]
+position = Vector2(297.85, -587.85)
+input_pickable = true
+gravity_scale = 0.0
+sleeping = true
+lock_rotation = true
+freeze_mode = 1
+script = ExtResource("3_h3uwa")
+
+[node name="StartRoom" type="RigidBody2D" parent="." instance=ExtResource("5_qro3l")]
+position = Vector2(-536, -720.85)
+input_pickable = true
+gravity_scale = 0.0
+sleeping = true
+lock_rotation = true
+freeze_mode = 1
+script = ExtResource("3_h3uwa")
+
+[node name="connection_line" type="Line2D" parent="." instance=ExtResource("6_2m08t")]
+points = PackedVector2Array(-344, -720.85, -86.1497, -587.85)
+width = 6.0
+script = ExtResource("7_blmgu")
+room1_path = "/root/Main/Layout/StartRoom"
+room2_path = "/root/Main/Layout/@RigidBody2D@97"
+
+[node name="_Line2D_98" type="Line2D" parent="." instance=ExtResource("6_2m08t")]
+points = PackedVector2Array(-536, -528.85, -725.85, -273.15)
+width = 6.0
+script = ExtResource("7_blmgu")
+room1_path = "/root/Main/Layout/StartRoom"
+room2_path = "/root/Main/Layout/NormalRoom"
+
+[node name="_Line2D_99" type="Line2D" parent="." instance=ExtResource("6_2m08t")]
+points = PackedVector2Array(297.85, -331.85, 557.999, -76.15)
+width = 6.0
+script = ExtResource("7_blmgu")
+room1_path = "/root/Main/Layout/@RigidBody2D@97"
+room2_path = "/root/Main/Layout/BossRoom"

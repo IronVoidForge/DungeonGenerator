@@ -1,0 +1,14 @@
+[gd_scene load_steps=4 format=3 uid="uid://ddngmrdhju5tb"]
+
+[ext_resource type="PackedScene" uid="uid://ds2iqhw1npki1" path="res://dungeonlayouteditor/room_texture.tscn" id="1_8d261"]
+[ext_resource type="Texture2D" uid="uid://dgrthwyk4lmnm" path="res://icon.svg" id="2_ludxy"]
+[ext_resource type="PackedScene" uid="uid://bm81f21op0sap" path="res://dungeonlayouteditor/Rooms/start_room.tscn" id="3_1jfkg"]
+
+[node name="RoomStart" instance=ExtResource("1_8d261")]
+offset_right = 128.0
+offset_bottom = 128.0
+texture = ExtResource("2_ludxy")
+room = ExtResource("3_1jfkg")
+
+[node name="Label" parent="." index="0"]
+text = "Start Room"

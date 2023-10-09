@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://d3dwancqupicn"]
+
+[ext_resource type="Script" path="res://dungeonlayouteditor/connection_line.gd" id="1_vs1bc"]
+
+[node name="ConnectionLine" type="Line2D"]
+width = 6.0
+script = ExtResource("1_vs1bc")

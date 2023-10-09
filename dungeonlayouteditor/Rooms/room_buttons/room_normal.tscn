@@ -1,0 +1,14 @@
+[gd_scene load_steps=4 format=3 uid="uid://djg32lvs1ea0j"]
+
+[ext_resource type="PackedScene" uid="uid://ds2iqhw1npki1" path="res://dungeonlayouteditor/room_texture.tscn" id="1_6i8jy"]
+[ext_resource type="Texture2D" uid="uid://dgrthwyk4lmnm" path="res://icon.svg" id="2_ni8cm"]
+[ext_resource type="PackedScene" uid="uid://bhyov1qc2hxra" path="res://dungeonlayouteditor/Rooms/normal_room.tscn" id="3_g8460"]
+
+[node name="RoomNormal" instance=ExtResource("1_6i8jy")]
+offset_right = 128.0
+offset_bottom = 128.0
+texture = ExtResource("2_ni8cm")
+room = ExtResource("3_g8460")
+
+[node name="Label" parent="." index="0"]
+text = "Normal Room"
