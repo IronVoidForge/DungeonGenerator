@@ -1,0 +1,42 @@
+[gd_scene load_steps=3 format=3 uid="uid://0emiugcdnq15"]
+
+[ext_resource type="PackedScene" uid="uid://bqhsfc8id16x1" path="res://dungeonlayouteditor/Rooms/Room.tscn" id="1_ipai2"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_c626c"]
+size = Vector2(512, 480)
+
+[node name="NPCRoom" instance=ExtResource("1_ipai2")]
+room_type = "NPC"
+
+[node name="CollisionShape2D" parent="." index="0"]
+shape = SubResource("RectangleShape2D_c626c")
+
+[node name="Right" parent="Connections" index="0"]
+position = Vector2(192, 0)
+direction = "RIGHT"
+
+[node name="Down" parent="Connections" index="1"]
+position = Vector2(0, 176)
+direction = "DOWN"
+
+[node name="Left" parent="Connections" index="2"]
+position = Vector2(-192, 0)
+direction = "LEFT"
+
+[node name="Up" parent="Connections" index="3"]
+position = Vector2(0, -176)
+direction = "UP"
+
+[node name="ColorRect" parent="." index="2"]
+offset_left = -192.0
+offset_top = -176.0
+offset_right = 192.0
+offset_bottom = 176.0
+color = Color(0.392157, 0.211765, 1, 1)
+
+[node name="Label" parent="." index="3"]
+offset_left = -48.0
+offset_top = -32.0
+offset_right = 50.0
+offset_bottom = -6.0
+text = "NPC Room"

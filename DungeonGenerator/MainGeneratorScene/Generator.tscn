@@ -1,32 +1,13 @@
-[gd_scene load_steps=12 format=3 uid="uid://tqxjvds2x68i"]
+[gd_scene load_steps=5 format=3 uid="uid://tqxjvds2x68i"]
 
 [ext_resource type="Script" path="res://DungeonGenerator/MainGeneratorScene/Generator.gd" id="1_npvb3"]
-[ext_resource type="Script" path="res://dungeonlayouteditor/Layout.gd" id="2_75nvt"]
 [ext_resource type="Script" path="res://dungeonlayouteditor/Camera2D.gd" id="2_eeqrw"]
-[ext_resource type="PackedScene" uid="uid://bhyov1qc2hxra" path="res://dungeonlayouteditor/Rooms/normal_room.tscn" id="3_hkera"]
-[ext_resource type="Script" path="res://dungeonlayouteditor/Rooms/Room.gd" id="4_cgogv"]
-[ext_resource type="PackedScene" uid="uid://jyhhtwm72vru" path="res://dungeonlayouteditor/Rooms/boss_room.tscn" id="5_dkggl"]
-[ext_resource type="PackedScene" uid="uid://bm81f21op0sap" path="res://dungeonlayouteditor/Rooms/start_room.tscn" id="6_xt1cf"]
-[ext_resource type="PackedScene" uid="uid://d3dwancqupicn" path="res://dungeonlayouteditor/connection_line.tscn" id="7_y5ubi"]
-[ext_resource type="Script" path="res://dungeonlayouteditor/connection_line.gd" id="8_j0h72"]
+[ext_resource type="PackedScene" path="res://DungeonGenerator/LayoutRepo/LVL1/1.tscn" id="2_v1a4p"]
 [ext_resource type="TileSet" uid="uid://bhgxw71uumtfg" path="res://DungeonGenerator/RoomPrefabs/BasicTile.tres" id="10_431lo"]
-
-[sub_resource type="PackedScene" id="PackedScene_qohwo"]
-_bundled = {
-"conn_count": 0,
-"conns": PackedInt32Array(),
-"editable_instances": [],
-"names": PackedStringArray("Layout", "Node2D", "script", "NormalRoom", "RigidBody2D", "position", "input_pickable", "gravity_scale", "sleeping", "lock_rotation", "freeze_mode", "script", "_RigidBody2D_97", "RigidBody2D", "position", "input_pickable", "gravity_scale", "sleeping", "lock_rotation", "freeze_mode", "script", "BossRoom", "RigidBody2D", "position", "input_pickable", "gravity_scale", "sleeping", "lock_rotation", "freeze_mode", "script", "StartRoom", "RigidBody2D", "position", "input_pickable", "gravity_scale", "sleeping", "lock_rotation", "freeze_mode", "script", "_RigidBody2D_98", "RigidBody2D", "position", "input_pickable", "gravity_scale", "sleeping", "lock_rotation", "freeze_mode", "script", "connection_line", "Line2D", "points", "width", "script", "_Line2D_99", "Line2D", "points", "width", "script", "_Line2D_100", "Line2D", "points", "width", "script", "_Line2D_101", "Line2D", "points", "width", "script"),
-"node_count": 10,
-"node_paths": [NodePath("."), NodePath("."), NodePath("."), NodePath("."), NodePath("."), NodePath("."), NodePath("."), NodePath("."), NodePath(".")],
-"nodes": PackedInt32Array(-1, -1, 1, 0, -1, 1, 2, 0, 0, 1073741824, 0, 4, 3, 1, 7, 5, 2, 6, 3, 7, 4, 8, 5, 9, 6, 10, 7, 11, 8, 0, 1073741825, 0, 13, 12, 9, 7, 14, 10, 15, 11, 16, 12, 17, 13, 18, 14, 19, 15, 20, 16, 0, 1073741826, 0, 22, 21, 17, 7, 23, 18, 24, 19, 25, 20, 26, 21, 27, 22, 28, 23, 29, 24, 0, 1073741827, 0, 31, 30, 25, 7, 32, 26, 33, 27, 34, 28, 35, 29, 36, 30, 37, 31, 38, 32, 0, 1073741828, 0, 40, 39, 33, 7, 41, 34, 42, 35, 43, 36, 44, 37, 45, 38, 46, 39, 47, 40, 0, 1073741829, 0, 49, 48, 41, 3, 50, 42, 51, 43, 52, 44, 0, 1073741830, 0, 54, 53, 45, 3, 55, 46, 56, 47, 57, 48, 0, 1073741831, 0, 59, 58, 49, 3, 60, 50, 61, 51, 62, 52, 0, 1073741832, 0, 64, 63, 53, 3, 65, 54, 66, 55, 67, 56, 0),
-"variants": [ExtResource("2_75nvt"), ExtResource("3_hkera"), Vector2(675.556, 296.933), true, 0.0, true, true, 1, ExtResource("4_cgogv"), ExtResource("3_hkera"), Vector2(-348.144, -9.49756), true, 0.0, true, true, 1, ExtResource("4_cgogv"), ExtResource("5_dkggl"), Vector2(-414.056, -911.584), true, 0.0, true, true, 1, ExtResource("4_cgogv"), ExtResource("6_xt1cf"), Vector2(586.937, 1000.63), true, 0.0, true, true, 1, ExtResource("4_cgogv"), ExtResource("5_dkggl"), Vector2(-521.474, 899.551), true, 0.0, true, true, 1, ExtResource("4_cgogv"), ExtResource("7_y5ubi"), PackedVector2Array(-9.47382, 899.551, 394.937, 1000.63), 6.0, ExtResource("8_j0h72"), ExtResource("7_y5ubi"), PackedVector2Array(586.937, 808.633, 675.556, 552.933), 6.0, ExtResource("8_j0h72"), ExtResource("7_y5ubi"), PackedVector2Array(-521.474, 515.551, -348.144, 246.502), 6.0, ExtResource("8_j0h72"), ExtResource("7_y5ubi"), PackedVector2Array(-414.056, -527.584, -348.144, -265.498), 6.0, ExtResource("8_j0h72")],
-"version": 3
-}
 
 [node name="Generator" type="Node2D"]
 script = ExtResource("1_npvb3")
-layout = SubResource("PackedScene_qohwo")
+layout = ExtResource("2_v1a4p")
 
 [node name="Camera2D" type="Camera2D" parent="."]
 zoom = Vector2(0.5, 0.5)

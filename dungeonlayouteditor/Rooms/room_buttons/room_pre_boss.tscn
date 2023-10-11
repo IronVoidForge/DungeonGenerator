@@ -1,0 +1,14 @@
+[gd_scene load_steps=4 format=3 uid="uid://u6unt8s4hxsi"]
+
+[ext_resource type="PackedScene" uid="uid://ds2iqhw1npki1" path="res://dungeonlayouteditor/room_texture.tscn" id="1_kdsnf"]
+[ext_resource type="Texture2D" uid="uid://dgrthwyk4lmnm" path="res://icon.svg" id="2_sunk7"]
+[ext_resource type="PackedScene" uid="uid://crl2bq0j0s1da" path="res://dungeonlayouteditor/Rooms/pre_boss_room.tscn" id="3_tolcs"]
+
+[node name="RoomPreBoss" instance=ExtResource("1_kdsnf")]
+offset_right = 128.0
+offset_bottom = 128.0
+texture = ExtResource("2_sunk7")
+room = ExtResource("3_tolcs")
+
+[node name="Label" parent="." index="0"]
+text = "Pre Boss Room"

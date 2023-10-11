@@ -1,0 +1,14 @@
+[gd_scene load_steps=4 format=3 uid="uid://begdr2tnnnvfs"]
+
+[ext_resource type="PackedScene" uid="uid://ds2iqhw1npki1" path="res://dungeonlayouteditor/room_texture.tscn" id="1_3mq7y"]
+[ext_resource type="Texture2D" uid="uid://dgrthwyk4lmnm" path="res://icon.svg" id="2_i8uyq"]
+[ext_resource type="PackedScene" uid="uid://cvawiy4g6vbuv" path="res://dungeonlayouteditor/Rooms/exit_room.tscn" id="3_3s5ve"]
+
+[node name="RoomStart" instance=ExtResource("1_3mq7y")]
+offset_right = 128.0
+offset_bottom = 128.0
+texture = ExtResource("2_i8uyq")
+room = ExtResource("3_3s5ve")
+
+[node name="Label" parent="." index="0"]
+text = "Exit Room"

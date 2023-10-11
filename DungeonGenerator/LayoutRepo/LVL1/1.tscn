@@ -1,69 +1,248 @@
-[gd_scene load_steps=8 format=3]
+[gd_scene load_steps=13 format=3]
 
-[ext_resource type="Script" path="res://dungeonlayouteditor/Layout.gd" id="1_gkrv7"]
-[ext_resource type="PackedScene" path="res://dungeonlayouteditor/Rooms/normal_room.tscn" id="2_vmfh8"]
-[ext_resource type="Script" path="res://dungeonlayouteditor/Rooms/Room.gd" id="3_h3uwa"]
-[ext_resource type="PackedScene" path="res://dungeonlayouteditor/Rooms/boss_room.tscn" id="4_fsb78"]
-[ext_resource type="PackedScene" path="res://dungeonlayouteditor/Rooms/start_room.tscn" id="5_qro3l"]
-[ext_resource type="PackedScene" path="res://dungeonlayouteditor/connection_line.tscn" id="6_2m08t"]
-[ext_resource type="Script" path="res://dungeonlayouteditor/connection_line.gd" id="7_blmgu"]
+[ext_resource type="Script" path="res://dungeonlayouteditor/Layout.gd" id="1_s7s5v"]
+[ext_resource type="PackedScene" path="res://dungeonlayouteditor/Rooms/start_room.tscn" id="2_rp0nq"]
+[ext_resource type="Script" path="res://dungeonlayouteditor/Rooms/Room.gd" id="3_pmisu"]
+[ext_resource type="PackedScene" path="res://dungeonlayouteditor/Rooms/normal_room.tscn" id="4_pucpl"]
+[ext_resource type="PackedScene" path="res://dungeonlayouteditor/Rooms/shop_room.tscn" id="5_4m6ee"]
+[ext_resource type="PackedScene" path="res://dungeonlayouteditor/Rooms/treasure_room.tscn" id="6_wk8yy"]
+[ext_resource type="PackedScene" path="res://dungeonlayouteditor/Rooms/secret_room.tscn" id="7_p6fxq"]
+[ext_resource type="PackedScene" path="res://dungeonlayouteditor/Rooms/pre_boss_room.tscn" id="8_y8j2q"]
+[ext_resource type="PackedScene" path="res://dungeonlayouteditor/Rooms/boss_room.tscn" id="9_x4vvk"]
+[ext_resource type="PackedScene" path="res://dungeonlayouteditor/Rooms/exit_room.tscn" id="10_yqmig"]
+[ext_resource type="PackedScene" path="res://dungeonlayouteditor/connection_line.tscn" id="11_5sy3t"]
+[ext_resource type="Script" path="res://dungeonlayouteditor/connection_line.gd" id="12_n6rru"]
 
 [node name="Layout" type="Node2D"]
-script = ExtResource("1_gkrv7")
+script = ExtResource("1_s7s5v")
 
-[node name="NormalRoom" type="RigidBody2D" parent="." instance=ExtResource("2_vmfh8")]
-position = Vector2(-725.85, -17.15)
+[node name="StartRoom" type="RigidBody2D" parent="." instance=ExtResource("2_rp0nq")]
+position = Vector2(-869.402, -711.94)
 input_pickable = true
 gravity_scale = 0.0
-sleeping = true
 lock_rotation = true
 freeze_mode = 1
-script = ExtResource("3_h3uwa")
+script = ExtResource("3_pmisu")
+room_type = "Start"
 
-[node name="BossRoom" type="RigidBody2D" parent="." instance=ExtResource("4_fsb78")]
-position = Vector2(557.999, 307.85)
+[node name="NormalRoom" type="RigidBody2D" parent="." instance=ExtResource("4_pucpl")]
+position = Vector2(-347.374, -8.24012)
 input_pickable = true
 gravity_scale = 0.0
-sleeping = true
 lock_rotation = true
 freeze_mode = 1
-script = ExtResource("3_h3uwa")
+script = ExtResource("3_pmisu")
+room_type = "Normal"
 
-[node name="_RigidBody2D_97" type="RigidBody2D" parent="." instance=ExtResource("2_vmfh8")]
-position = Vector2(297.85, -587.85)
+[node name="_RigidBody2D_97" type="RigidBody2D" parent="." instance=ExtResource("4_pucpl")]
+position = Vector2(-791.199, 979.135)
 input_pickable = true
 gravity_scale = 0.0
-sleeping = true
 lock_rotation = true
 freeze_mode = 1
-script = ExtResource("3_h3uwa")
+script = ExtResource("3_pmisu")
+room_type = "Normal"
 
-[node name="StartRoom" type="RigidBody2D" parent="." instance=ExtResource("5_qro3l")]
-position = Vector2(-536, -720.85)
+[node name="_RigidBody2D_98" type="RigidBody2D" parent="." instance=ExtResource("4_pucpl")]
+position = Vector2(-1229.74, 2034.82)
 input_pickable = true
 gravity_scale = 0.0
-sleeping = true
 lock_rotation = true
 freeze_mode = 1
-script = ExtResource("3_h3uwa")
+script = ExtResource("3_pmisu")
+room_type = "Normal"
 
-[node name="connection_line" type="Line2D" parent="." instance=ExtResource("6_2m08t")]
-points = PackedVector2Array(-344, -720.85, -86.1497, -587.85)
+[node name="ShopRoom" type="RigidBody2D" parent="." instance=ExtResource("5_4m6ee")]
+position = Vector2(-530.408, 2802.52)
+input_pickable = true
+gravity_scale = 0.0
+lock_rotation = true
+freeze_mode = 1
+script = ExtResource("3_pmisu")
+room_type = "Shop"
+
+[node name="TreasureRoom" type="RigidBody2D" parent="." instance=ExtResource("6_wk8yy")]
+position = Vector2(-1286.37, 3570.22)
+input_pickable = true
+gravity_scale = 0.0
+lock_rotation = true
+freeze_mode = 1
+script = ExtResource("3_pmisu")
+room_type = "Treasure"
+
+[node name="_RigidBody2D_99" type="RigidBody2D" parent="." instance=ExtResource("4_pucpl")]
+position = Vector2(529.422, 759.476)
+input_pickable = true
+gravity_scale = 0.0
+lock_rotation = true
+freeze_mode = 1
+script = ExtResource("3_pmisu")
+room_type = "Normal"
+
+[node name="SecretRoom" type="RigidBody2D" parent="." instance=ExtResource("7_p6fxq")]
+position = Vector2(-87.5485, 1746.83)
+input_pickable = true
+gravity_scale = 0.0
+lock_rotation = true
+freeze_mode = 1
+script = ExtResource("3_pmisu")
+room_type = "Secret"
+
+[node name="_RigidBody2D_100" type="RigidBody2D" parent="." instance=ExtResource("4_pucpl")]
+position = Vector2(1438.51, 1527.18)
+input_pickable = true
+gravity_scale = 0.0
+lock_rotation = true
+freeze_mode = 1
+script = ExtResource("3_pmisu")
+room_type = "Normal"
+
+[node name="PreBossRoom" type="RigidBody2D" parent="." instance=ExtResource("8_y8j2q")]
+position = Vector2(3328.31, 1074.4)
+input_pickable = true
+gravity_scale = 0.0
+lock_rotation = true
+freeze_mode = 1
+script = ExtResource("3_pmisu")
+room_type = "PreBoss"
+
+[node name="BossRoom" type="RigidBody2D" parent="." instance=ExtResource("9_x4vvk")]
+position = Vector2(2669.94, 178.702)
+input_pickable = true
+gravity_scale = 0.0
+lock_rotation = true
+freeze_mode = 1
+script = ExtResource("3_pmisu")
+room_type = "Boss"
+
+[node name="ExitRoom" type="RigidBody2D" parent="." instance=ExtResource("10_yqmig")]
+position = Vector2(1815.7, -716.998)
+input_pickable = true
+gravity_scale = 0.0
+lock_rotation = true
+freeze_mode = 1
+script = ExtResource("3_pmisu")
+room_type = "Exit"
+
+[node name="_RigidBody2D_101" type="RigidBody2D" parent="." instance=ExtResource("6_wk8yy")]
+position = Vector2(1352.34, 2869.81)
+input_pickable = true
+gravity_scale = 0.0
+lock_rotation = true
+freeze_mode = 1
+script = ExtResource("3_pmisu")
+room_type = "Treasure"
+
+[node name="_RigidBody2D_102" type="RigidBody2D" parent="." instance=ExtResource("4_pucpl")]
+position = Vector2(2490.69, 2128.72)
+input_pickable = true
+gravity_scale = 0.0
+lock_rotation = true
+freeze_mode = 1
+script = ExtResource("3_pmisu")
+room_type = "Normal"
+
+[node name="ConnectionLine" type="Line2D" parent="." instance=ExtResource("11_5sy3t")]
+points = PackedVector2Array(-347.374, 247.76, -791.199, 723.135)
 width = 6.0
-script = ExtResource("7_blmgu")
-room1_path = "/root/Main/Layout/StartRoom"
+script = ExtResource("12_n6rru")
+room1_path = "/root/Main/Layout/NormalRoom"
 room2_path = "/root/Main/Layout/@RigidBody2D@97"
 
-[node name="_Line2D_98" type="Line2D" parent="." instance=ExtResource("6_2m08t")]
-points = PackedVector2Array(-536, -528.85, -725.85, -273.15)
+[node name="_Line2D_103" type="Line2D" parent="." instance=ExtResource("11_5sy3t")]
+points = PackedVector2Array(-869.402, -519.94, -731.374, -8.24012)
 width = 6.0
-script = ExtResource("7_blmgu")
+script = ExtResource("12_n6rru")
 room1_path = "/root/Main/Layout/StartRoom"
 room2_path = "/root/Main/Layout/NormalRoom"
 
-[node name="_Line2D_99" type="Line2D" parent="." instance=ExtResource("6_2m08t")]
-points = PackedVector2Array(297.85, -331.85, 557.999, -76.15)
+[node name="_Line2D_104" type="Line2D" parent="." instance=ExtResource("11_5sy3t")]
+points = PackedVector2Array(-407.199, 979.135, 145.422, 759.476)
 width = 6.0
-script = ExtResource("7_blmgu")
+script = ExtResource("12_n6rru")
 room1_path = "/root/Main/Layout/@RigidBody2D@97"
+room2_path = "/root/Main/Layout/@RigidBody2D@99"
+
+[node name="_Line2D_105" type="Line2D" parent="." instance=ExtResource("11_5sy3t")]
+points = PackedVector2Array(-791.199, 1235.13, -215.548, 1746.83)
+width = 6.0
+script = ExtResource("12_n6rru")
+room1_path = "/root/Main/Layout/@RigidBody2D@97"
+room2_path = "/root/Main/Layout/SecretRoom"
+
+[node name="_Line2D_106" type="Line2D" parent="." instance=ExtResource("11_5sy3t")]
+points = PackedVector2Array(-1175.2, 979.135, -1229.74, 1778.82)
+width = 6.0
+script = ExtResource("12_n6rru")
+room1_path = "/root/Main/Layout/@RigidBody2D@97"
+room2_path = "/root/Main/Layout/@RigidBody2D@98"
+
+[node name="_Line2D_107" type="Line2D" parent="." instance=ExtResource("11_5sy3t")]
+points = PackedVector2Array(-845.742, 2034.82, -530.408, 2530.52)
+width = 6.0
+script = ExtResource("12_n6rru")
+room1_path = "/root/Main/Layout/@RigidBody2D@98"
+room2_path = "/root/Main/Layout/ShopRoom"
+
+[node name="_Line2D_108" type="Line2D" parent="." instance=ExtResource("11_5sy3t")]
+points = PackedVector2Array(-530.408, 3074.52, -1158.37, 3570.22)
+width = 6.0
+script = ExtResource("12_n6rru")
+room1_path = "/root/Main/Layout/ShopRoom"
+room2_path = "/root/Main/Layout/TreasureRoom"
+
+[node name="_Line2D_109" type="Line2D" parent="." instance=ExtResource("11_5sy3t")]
+points = PackedVector2Array(-1286.37, 3426.22, -1229.74, 2290.82)
+width = 6.0
+script = ExtResource("12_n6rru")
+room1_path = "/root/Main/Layout/TreasureRoom"
+room2_path = "/root/Main/Layout/@RigidBody2D@98"
+
+[node name="_Line2D_110" type="Line2D" parent="." instance=ExtResource("11_5sy3t")]
+points = PackedVector2Array(529.422, 1015.48, 1054.51, 1527.18)
+width = 6.0
+script = ExtResource("12_n6rru")
+room1_path = "/root/Main/Layout/@RigidBody2D@99"
+room2_path = "/root/Main/Layout/@RigidBody2D@100"
+
+[node name="_Line2D_111" type="Line2D" parent="." instance=ExtResource("11_5sy3t")]
+points = PackedVector2Array(1438.51, 1271.18, 2669.94, 562.702)
+width = 6.0
+script = ExtResource("12_n6rru")
+room1_path = "/root/Main/Layout/@RigidBody2D@100"
 room2_path = "/root/Main/Layout/BossRoom"
+
+[node name="_Line2D_112" type="Line2D" parent="." instance=ExtResource("11_5sy3t")]
+points = PackedVector2Array(2157.94, 178.702, 1815.7, -588.998)
+width = 6.0
+script = ExtResource("12_n6rru")
+room1_path = "/root/Main/Layout/BossRoom"
+room2_path = "/root/Main/Layout/ExitRoom"
+
+[node name="_Line2D_113" type="Line2D" parent="." instance=ExtResource("11_5sy3t")]
+points = PackedVector2Array(1822.51, 1527.18, 2106.69, 2128.72)
+width = 6.0
+script = ExtResource("12_n6rru")
+room1_path = "/root/Main/Layout/@RigidBody2D@100"
+room2_path = "/root/Main/Layout/@RigidBody2D@102"
+
+[node name="_Line2D_114" type="Line2D" parent="." instance=ExtResource("11_5sy3t")]
+points = PackedVector2Array(2490.69, 2384.72, 1480.34, 2869.81)
+width = 6.0
+script = ExtResource("12_n6rru")
+room1_path = "/root/Main/Layout/@RigidBody2D@102"
+room2_path = "/root/Main/Layout/@RigidBody2D@101"
+
+[node name="_Line2D_115" type="Line2D" parent="." instance=ExtResource("11_5sy3t")]
+points = PackedVector2Array(2874.69, 2128.72, 3328.31, 1202.4)
+width = 6.0
+script = ExtResource("12_n6rru")
+room1_path = "/root/Main/Layout/@RigidBody2D@102"
+room2_path = "/root/Main/Layout/PreBossRoom"
+
+[node name="_Line2D_116" type="Line2D" parent="." instance=ExtResource("11_5sy3t")]
+points = PackedVector2Array(3181.94, 178.702, 3328.31, 946.402)
+width = 6.0
+script = ExtResource("12_n6rru")
+room1_path = "/root/Main/Layout/BossRoom"
+room2_path = "/root/Main/Layout/PreBossRoom"

@@ -6,19 +6,21 @@ var is_rearrange_mode = false
 var last_position = Vector2()
 var grid_size = 16
 var spacing = 128
-
+var is_sized = false
 @onready var connection_container = $Connections
 @onready var timer = $Timer
 @onready var collision_shape =$CollisionShape2D
 @onready var room_envelope = $ColorRect.size
 
-@export_enum("Start", "Normal", "Boss") var room_type: String
+@export_enum("Start", "Normal", "Key", "Treasure", "Shop", "NPC", "Secret", "PreBoss", "Boss", "Exit") var room_type: String
 signal clicked
 signal body_added_to_tree
 signal position_changed
 
 func _ready():
-	collision_shape.shape.size = Vector2(room_envelope.x+ spacing*2, room_envelope.y + spacing*2)
+	if not is_sized:
+		collision_shape.shape.size = Vector2(room_envelope.x+ spacing*2, room_envelope.y + spacing*2)
+		is_sized = true
 	add_to_group("pickable")
 	emit_signal("body_added_to_tree", self)
 

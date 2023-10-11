@@ -2,13 +2,14 @@
 
 [ext_resource type="PackedScene" uid="uid://bqhsfc8id16x1" path="res://dungeonlayouteditor/Rooms/Room.tscn" id="1_syhwd"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_hvhuj"]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_xcc7d"]
+size = Vector2(512, 512)
 
 [node name="StartRoom" instance=ExtResource("1_syhwd")]
 room_type = "Start"
 
 [node name="CollisionShape2D" parent="." index="0"]
-shape = SubResource("RectangleShape2D_hvhuj")
+shape = SubResource("RectangleShape2D_xcc7d")
 
 [node name="Right" parent="Connections" index="0"]
 position = Vector2(192, 0)

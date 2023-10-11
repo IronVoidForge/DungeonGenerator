@@ -1,0 +1,14 @@
+[gd_scene load_steps=4 format=3 uid="uid://dbbw6ox3g4b7u"]
+
+[ext_resource type="PackedScene" uid="uid://ds2iqhw1npki1" path="res://dungeonlayouteditor/room_texture.tscn" id="1_weuxu"]
+[ext_resource type="Texture2D" uid="uid://dgrthwyk4lmnm" path="res://icon.svg" id="2_pkyqx"]
+[ext_resource type="PackedScene" uid="uid://c62caa4f7jn6u" path="res://dungeonlayouteditor/Rooms/treasure_room.tscn" id="3_qsrl5"]
+
+[node name="RoomTreasure" instance=ExtResource("1_weuxu")]
+offset_right = 128.0
+offset_bottom = 128.0
+texture = ExtResource("2_pkyqx")
+room = ExtResource("3_qsrl5")
+
+[node name="Label" parent="." index="0"]
+text = "Treasure Room"

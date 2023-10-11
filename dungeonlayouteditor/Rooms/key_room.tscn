@@ -1,0 +1,42 @@
+[gd_scene load_steps=3 format=3 uid="uid://ywwr8ep5toiy"]
+
+[ext_resource type="PackedScene" uid="uid://bqhsfc8id16x1" path="res://dungeonlayouteditor/Rooms/Room.tscn" id="1_307hy"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_w6ihx"]
+size = Vector2(288, 288)
+
+[node name="KeyRoom" instance=ExtResource("1_307hy")]
+room_type = "Key"
+
+[node name="CollisionShape2D" parent="." index="0"]
+shape = SubResource("RectangleShape2D_w6ihx")
+
+[node name="Right" parent="Connections" index="0"]
+position = Vector2(80, 0)
+direction = "RIGHT"
+
+[node name="Down" parent="Connections" index="1"]
+position = Vector2(0, 80)
+direction = "DOWN"
+
+[node name="Left" parent="Connections" index="2"]
+position = Vector2(-80, 0)
+direction = "LEFT"
+
+[node name="Up" parent="Connections" index="3"]
+position = Vector2(0, -80)
+direction = "UP"
+
+[node name="ColorRect" parent="." index="2"]
+offset_left = -80.0
+offset_top = -80.0
+offset_right = 80.0
+offset_bottom = 80.0
+color = Color(0.235294, 0.0784314, 1, 1)
+
+[node name="Label" parent="." index="3"]
+offset_left = -32.0
+offset_top = -24.0
+offset_right = 46.0
+offset_bottom = 2.0
+text = "Key Room"

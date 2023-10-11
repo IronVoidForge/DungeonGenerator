@@ -3,6 +3,7 @@
 [ext_resource type="PackedScene" uid="uid://bqhsfc8id16x1" path="res://dungeonlayouteditor/Rooms/Room.tscn" id="1_2a5c8"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_yxn70"]
+size = Vector2(1152, 896)
 
 [node name="BossRoom" instance=ExtResource("1_2a5c8")]
 room_type = "Boss"

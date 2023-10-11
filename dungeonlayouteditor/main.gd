@@ -7,10 +7,10 @@ var target_rotation = 0.0
 var rotation_done = 0.0
 var rotate_speed = PI / 3
 var clicked_bodies = []
-@onready var connect_button = $RoomSelect/TabContainer/Rooms/ScrollContainer/VBoxContainer/HBoxContainer/ConnectButton
-@onready var rearrange_button = $RoomSelect/TabContainer/Rooms/ScrollContainer/VBoxContainer/HBoxContainer/RearrangeButton
-@onready var rotate_button = $RoomSelect/TabContainer/Rooms/ScrollContainer/VBoxContainer/HBoxContainer/RotateButton
-@onready var save_button = $RoomSelect/TabContainer/Rooms/ScrollContainer/VBoxContainer/HBoxContainer/SaveButton
+@onready var connect_button = $RoomSelect/TabContainer/Rooms/ScrollContainer/VBoxContainer/HBoxContainer3/ConnectButton
+@onready var rearrange_button = $RoomSelect/TabContainer/Rooms/ScrollContainer/VBoxContainer/HBoxContainer3/RearrangeButton
+@onready var rotate_button = $RoomSelect/TabContainer/Rooms/ScrollContainer/VBoxContainer/HBoxContainer3/RotateButton
+@onready var save_button = $RoomSelect/TabContainer/Rooms/ScrollContainer/VBoxContainer/HBoxContainer3/SaveButton
 @onready var layout = $Layout
 # Load the Line2D scene
 var connection_line_scene = preload("res://dungeonlayouteditor/connection_line.tscn")

@@ -1,0 +1,14 @@
+[gd_scene load_steps=4 format=3 uid="uid://ciwouhdct3620"]
+
+[ext_resource type="PackedScene" uid="uid://ds2iqhw1npki1" path="res://dungeonlayouteditor/room_texture.tscn" id="1_w4ldv"]
+[ext_resource type="Texture2D" uid="uid://dgrthwyk4lmnm" path="res://icon.svg" id="2_uihqq"]
+[ext_resource type="PackedScene" uid="uid://ywwr8ep5toiy" path="res://dungeonlayouteditor/Rooms/key_room.tscn" id="3_d163f"]
+
+[node name="RoomKey" instance=ExtResource("1_w4ldv")]
+offset_right = 128.0
+offset_bottom = 128.0
+texture = ExtResource("2_uihqq")
+room = ExtResource("3_d163f")
+
+[node name="Label" parent="." index="0"]
+text = "Key Room"

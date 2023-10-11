@@ -7,9 +7,16 @@ var layout_instance: Node
 var current_level = 1
 var all_connection_points: Array = []
 # Preload room prefabs
-const START_ROOM = preload("res://DungeonGenerator/RoomPrefabs/LVL1/Start/start_prefab_1.tscn")
-const NORMAL_ROOM = preload("res://DungeonGenerator/RoomPrefabs/LVL1/Normal/normal_prefab_1.tscn")
 const BOSS_ROOM = preload("res://DungeonGenerator/RoomPrefabs/LVL1/Boss/boss_prefab_1.tscn")
+const EXIT_ROOM = preload("res://DungeonGenerator/RoomPrefabs/LVL1/Exit/exit_prefab_1.tscn")
+const KEY_ROOM = preload("res://DungeonGenerator/RoomPrefabs/LVL1/Key/key_prefab_1.tscn")
+const NORMAL_ROOM = preload("res://DungeonGenerator/RoomPrefabs/LVL1/Normal/normal_prefab_1.tscn")
+const NPC_ROOM = preload("res://DungeonGenerator/RoomPrefabs/LVL1/NPC/npc_prefab_1.tscn")
+const PREBOSS_ROOM = preload("res://DungeonGenerator/RoomPrefabs/LVL1/PreBoss/pre_boss_prefab_1.tscn")
+const SECRET_ROOM = preload("res://DungeonGenerator/RoomPrefabs/LVL1/Secret/secret_prefab_1.tscn")
+const SHOP_ROOM = preload("res://DungeonGenerator/RoomPrefabs/LVL1/Shop/shop_prefab_1.tscn")
+const START_ROOM = preload("res://DungeonGenerator/RoomPrefabs/LVL1/Start/start_prefab_1.tscn")
+const TREASURE_ROOM = preload("res://DungeonGenerator/RoomPrefabs/LVL1/Treasure/treasure_prefab_1.tscn")
 
 func _ready() -> void:
 	add_layout_to_scene()
@@ -54,6 +61,7 @@ func create_hallways() -> void:
 		
 		var start_type = con.current_point1.direction
 		var end_type = con.current_point2.direction
+
 		if start_type in ["UP", "DOWN"]:
 			if end_type in ["UP", "DOWN"]:
 				create_vertical_hallway(start_point, Vector2(start_point.x, (start_point.y + end_point.y) / 2))
@@ -62,35 +70,37 @@ func create_hallways() -> void:
 			elif end_type in ["LEFT", "RIGHT"]:
 				create_vertical_hallway(start_point, Vector2(start_point.x, end_point.y))
 				create_horizontal_hallway(Vector2(start_point.x, end_point.y), end_point)
+
 		if start_type in ["LEFT", "RIGHT"]:
 			if end_type in ["UP", "DOWN"]:
-				print("wow")
 				create_horizontal_hallway(start_point, Vector2(end_point.x, start_point.y))
 				create_vertical_hallway(Vector2(end_point.x, start_point.y), end_point)
 			elif end_type in ["LEFT", "RIGHT"]:
-				create_horizontal_hallway(start_point, end_point)
-				
+				create_horizontal_hallway(start_point, Vector2((start_point.x + end_point.x) / 2, start_point.y))
+				create_vertical_hallway(Vector2((start_point.x + end_point.x) / 2, start_point.y), Vector2((start_point.x + end_point.x) / 2, end_point.y))
+				create_horizontal_hallway(Vector2((start_point.x + end_point.x) / 2, end_point.y), end_point)
+
 func create_vertical_hallway(start: Vector2, end: Vector2):
 	var step = 1 if start.y < end.y else -1
 	var current_y = start.y
-	while current_y != end.y:
+	while (step == 1 && current_y < end.y) || (step == -1 && current_y > end.y):
 		set_tile_at_world_position(Vector2(start.x, current_y))
-		current_y += step * 16  # 16 being the size of your tile.
+		current_y += step * 16
 	set_tile_at_world_position(end)
 
 func create_horizontal_hallway(start: Vector2, end: Vector2):
 	var step = 1 if start.x < end.x else -1
 	var current_x = start.x
-	while current_x != end.x:
+	while (step == 1 && current_x < end.x) || (step == -1 && current_x > end.x):
 		set_tile_at_world_position(Vector2(current_x, start.y))
-		current_x += step * 16  # 16 being the size of your tile.
+		current_x += step * 16
 	set_tile_at_world_position(end)
+
 	
 func set_tile_at_world_position(pos: Vector2):
 	# Convert the world position to the TileMap's cell position.
 	var cell_position = hallway_tilemap.local_to_map(pos)
-	hallway_tilemap.set_cell(0, cell_position, 1)
-  # Assumes you're using tile index 0 for your hallway.
+	hallway_tilemap.set_cell(0, cell_position, 1, Vector2(1,7))
 	
 	
 func generate() -> void:
@@ -101,14 +111,59 @@ func generate() -> void:
 				self.add_child(instance)
 				instance.add_to_group("rooms")
 				instance.global_position = room.global_position
+
 			"Normal":
 				var instance = NORMAL_ROOM.instantiate()
 				self.add_child(instance)
 				instance.add_to_group("rooms")
 				instance.global_position = room.global_position
+
 			"Boss":
 				var instance = BOSS_ROOM.instantiate()
 				self.add_child(instance)
 				instance.add_to_group("rooms")
 				instance.global_position = room.global_position
+
+			"Exit":
+				var instance = EXIT_ROOM.instantiate()
+				self.add_child(instance)
+				instance.add_to_group("rooms")
+				instance.global_position = room.global_position
+
+			"Key":
+				var instance = KEY_ROOM.instantiate()
+				self.add_child(instance)
+				instance.add_to_group("rooms")
+				instance.global_position = room.global_position
+
+			"NPC":
+				var instance = NPC_ROOM.instantiate()
+				self.add_child(instance)
+				instance.add_to_group("rooms")
+				instance.global_position = room.global_position
+
+			"PreBoss":
+				var instance = PREBOSS_ROOM.instantiate()
+				self.add_child(instance)
+				instance.add_to_group("rooms")
+				instance.global_position = room.global_position
+
+			"Secret":
+				var instance = SECRET_ROOM.instantiate()
+				self.add_child(instance)
+				instance.add_to_group("rooms")
+				instance.global_position = room.global_position
+
+			"Shop":
+				var instance = SHOP_ROOM.instantiate()
+				self.add_child(instance)
+				instance.add_to_group("rooms")
+				instance.global_position = room.global_position
+
+			"Treasure":
+				var instance = TREASURE_ROOM.instantiate()
+				self.add_child(instance)
+				instance.add_to_group("rooms")
+				instance.global_position = room.global_position
+
 	create_hallways()

@@ -1,0 +1,42 @@
+[gd_scene load_steps=3 format=3 uid="uid://cvawiy4g6vbuv"]
+
+[ext_resource type="PackedScene" uid="uid://bqhsfc8id16x1" path="res://dungeonlayouteditor/Rooms/Room.tscn" id="1_wicre"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_lb6wq"]
+size = Vector2(448, 384)
+
+[node name="ExitRoom" instance=ExtResource("1_wicre")]
+room_type = "Exit"
+
+[node name="CollisionShape2D" parent="." index="0"]
+shape = SubResource("RectangleShape2D_lb6wq")
+
+[node name="Right" parent="Connections" index="0"]
+position = Vector2(160, 0)
+direction = "RIGHT"
+
+[node name="Down" parent="Connections" index="1"]
+position = Vector2(0, 128)
+direction = "DOWN"
+
+[node name="Left" parent="Connections" index="2"]
+position = Vector2(-160, 0)
+direction = "LEFT"
+
+[node name="Up" parent="Connections" index="3"]
+position = Vector2(0, -128)
+direction = "UP"
+
+[node name="ColorRect" parent="." index="2"]
+offset_left = -160.0
+offset_top = -128.0
+offset_right = 160.0
+offset_bottom = 128.0
+color = Color(0, 0.45098, 0, 1)
+
+[node name="Label" parent="." index="3"]
+offset_left = -32.0
+offset_top = -32.0
+offset_right = 86.0
+offset_bottom = -6.0
+text = "Exit Room"

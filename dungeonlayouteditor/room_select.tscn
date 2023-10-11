@@ -1,9 +1,16 @@
-[gd_scene load_steps=5 format=3 uid="uid://dvn1tavqre8gn"]
+[gd_scene load_steps=12 format=3 uid="uid://dvn1tavqre8gn"]
 
 [ext_resource type="PackedScene" uid="uid://ddngmrdhju5tb" path="res://dungeonlayouteditor/Rooms/room_buttons/room_start.tscn" id="1_ljhtr"]
 [ext_resource type="Script" path="res://dungeonlayouteditor/room_select.gd" id="1_uhjgq"]
+[ext_resource type="PackedScene" uid="uid://d1nlwpytqcbcv" path="res://dungeonlayouteditor/Rooms/room_buttons/room_shop.tscn" id="4_5kp4d"]
 [ext_resource type="PackedScene" uid="uid://dvcvt03vab3a3" path="res://dungeonlayouteditor/Rooms/room_buttons/room_boss.tscn" id="4_fg7ua"]
 [ext_resource type="PackedScene" uid="uid://djg32lvs1ea0j" path="res://dungeonlayouteditor/Rooms/room_buttons/room_normal.tscn" id="4_vrmqy"]
+[ext_resource type="PackedScene" uid="uid://ciwouhdct3620" path="res://dungeonlayouteditor/Rooms/room_buttons/room_key.tscn" id="5_2p80j"]
+[ext_resource type="PackedScene" uid="uid://cp7cbsemuhgyt" path="res://dungeonlayouteditor/Rooms/room_buttons/room_secret.tscn" id="5_kkddq"]
+[ext_resource type="PackedScene" uid="uid://u6unt8s4hxsi" path="res://dungeonlayouteditor/Rooms/room_buttons/room_pre_boss.tscn" id="6_6aacw"]
+[ext_resource type="PackedScene" uid="uid://d37hwdnlsl2lf" path="res://dungeonlayouteditor/Rooms/room_buttons/room_NPC.tscn" id="6_b64am"]
+[ext_resource type="PackedScene" uid="uid://dbbw6ox3g4b7u" path="res://dungeonlayouteditor/Rooms/room_buttons/room_treasure.tscn" id="6_e2o1k"]
+[ext_resource type="PackedScene" uid="uid://begdr2tnnnvfs" path="res://dungeonlayouteditor/Rooms/room_buttons/room_exit.tscn" id="11_21knj"]
 
 [node name="RoomSelect" type="Control"]
 layout_mode = 3
@@ -39,30 +46,63 @@ layout_mode = 2
 [node name="RoomStart" parent="TabContainer/Rooms/ScrollContainer/VBoxContainer/HBoxContainer" instance=ExtResource("1_ljhtr")]
 layout_mode = 2
 
-[node name="RoomBoss" parent="TabContainer/Rooms/ScrollContainer/VBoxContainer/HBoxContainer" instance=ExtResource("4_fg7ua")]
+[node name="RoomNormal" parent="TabContainer/Rooms/ScrollContainer/VBoxContainer/HBoxContainer" instance=ExtResource("4_vrmqy")]
+modulate = Color(0.729412, 0.729412, 0.729412, 1)
 layout_mode = 2
 
-[node name="ConnectButton" type="CheckButton" parent="TabContainer/Rooms/ScrollContainer/VBoxContainer/HBoxContainer"]
+[node name="RoomBoss" parent="TabContainer/Rooms/ScrollContainer/VBoxContainer/HBoxContainer" instance=ExtResource("4_5kp4d")]
+modulate = Color(0.470588, 1, 0.556863, 1)
 layout_mode = 2
-text = "Connect"
 
-[node name="RearrangeButton" type="CheckButton" parent="TabContainer/Rooms/ScrollContainer/VBoxContainer/HBoxContainer"]
+[node name="RoomSecret" parent="TabContainer/Rooms/ScrollContainer/VBoxContainer/HBoxContainer" instance=ExtResource("5_kkddq")]
+modulate = Color(0, 0.984314, 0.992157, 1)
 layout_mode = 2
-text = "Rearrange"
 
-[node name="RotateButton" type="Button" parent="TabContainer/Rooms/ScrollContainer/VBoxContainer/HBoxContainer"]
+[node name="RoomTreasure" parent="TabContainer/Rooms/ScrollContainer/VBoxContainer/HBoxContainer" instance=ExtResource("6_b64am")]
+modulate = Color(1, 0.686275, 1, 1)
 layout_mode = 2
-text = " Rotate "
-
-[node name="SaveButton" type="Button" parent="TabContainer/Rooms/ScrollContainer/VBoxContainer/HBoxContainer"]
-layout_mode = 2
-text = "Save Layout"
 
 [node name="HBoxContainer2" type="HBoxContainer" parent="TabContainer/Rooms/ScrollContainer/VBoxContainer"]
 layout_mode = 2
 
-[node name="RoomNormal" parent="TabContainer/Rooms/ScrollContainer/VBoxContainer/HBoxContainer2" instance=ExtResource("4_vrmqy")]
+[node name="RoomKey" parent="TabContainer/Rooms/ScrollContainer/VBoxContainer/HBoxContainer2" instance=ExtResource("5_2p80j")]
+modulate = Color(0.541176, 0.0196078, 1, 1)
 layout_mode = 2
+
+[node name="RoomBoss" parent="TabContainer/Rooms/ScrollContainer/VBoxContainer/HBoxContainer2" instance=ExtResource("6_e2o1k")]
+modulate = Color(1, 1, 0.521569, 1)
+layout_mode = 2
+
+[node name="RoomBoss2" parent="TabContainer/Rooms/ScrollContainer/VBoxContainer/HBoxContainer2" instance=ExtResource("6_6aacw")]
+modulate = Color(0.521569, 0.521569, 0.521569, 1)
+layout_mode = 2
+
+[node name="RoomBoss3" parent="TabContainer/Rooms/ScrollContainer/VBoxContainer/HBoxContainer2" instance=ExtResource("4_fg7ua")]
+modulate = Color(1, 0.368627, 0.368627, 1)
+layout_mode = 2
+
+[node name="RoomStart" parent="TabContainer/Rooms/ScrollContainer/VBoxContainer/HBoxContainer2" instance=ExtResource("11_21knj")]
+layout_mode = 2
+
+[node name="HBoxContainer3" type="HBoxContainer" parent="TabContainer/Rooms/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="ConnectButton" type="CheckButton" parent="TabContainer/Rooms/ScrollContainer/VBoxContainer/HBoxContainer3"]
+layout_mode = 2
+text = "Connect"
+
+[node name="RearrangeButton" type="CheckButton" parent="TabContainer/Rooms/ScrollContainer/VBoxContainer/HBoxContainer3"]
+layout_mode = 2
+text = "Rearrange"
+
+[node name="RotateButton" type="Button" parent="TabContainer/Rooms/ScrollContainer/VBoxContainer/HBoxContainer3"]
+custom_minimum_size = Vector2(85, 85)
+layout_mode = 2
+text = " Rotate "
+
+[node name="SaveButton" type="Button" parent="TabContainer/Rooms/ScrollContainer/VBoxContainer/HBoxContainer3"]
+layout_mode = 2
+text = "Save Layout"
 
 [connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]
 [connection signal="mouse_exited" from="." to="." method="_on_mouse_exited"]

@@ -1,0 +1,14 @@
+[gd_scene load_steps=4 format=3 uid="uid://d1nlwpytqcbcv"]
+
+[ext_resource type="PackedScene" uid="uid://ds2iqhw1npki1" path="res://dungeonlayouteditor/room_texture.tscn" id="1_rmm0g"]
+[ext_resource type="Texture2D" uid="uid://dgrthwyk4lmnm" path="res://icon.svg" id="2_wftks"]
+[ext_resource type="PackedScene" uid="uid://i0m8tvjv0tm4" path="res://dungeonlayouteditor/Rooms/shop_room.tscn" id="3_um0d2"]
+
+[node name="RoomShop" instance=ExtResource("1_rmm0g")]
+offset_right = 128.0
+offset_bottom = 128.0
+texture = ExtResource("2_wftks")
+room = ExtResource("3_um0d2")
+
+[node name="Label" parent="." index="0"]
+text = "Shop Room"
