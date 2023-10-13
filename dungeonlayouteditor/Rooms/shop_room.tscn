@@ -12,20 +12,28 @@ room_type = "Shop"
 shape = SubResource("RectangleShape2D_wwf7s")
 
 [node name="Right" parent="Connections" index="0"]
-position = Vector2(320, 0)
-direction = "RIGHT"
+position = Vector2(384, -128)
 
-[node name="Down" parent="Connections" index="1"]
-position = Vector2(0, 272)
-direction = "DOWN"
+[node name="Right2" parent="Connections" index="1"]
+position = Vector2(384, 128)
 
-[node name="Left" parent="Connections" index="2"]
-position = Vector2(-320, 0)
-direction = "LEFT"
+[node name="Down" parent="Connections" index="2"]
+position = Vector2(160, 336)
 
-[node name="Up" parent="Connections" index="3"]
-position = Vector2(0, -272)
-direction = "UP"
+[node name="Down2" parent="Connections" index="3"]
+position = Vector2(-160, 336)
+
+[node name="Left" parent="Connections" index="4"]
+position = Vector2(-384, -128)
+
+[node name="Left2" parent="Connections" index="5"]
+position = Vector2(-384, 128)
+
+[node name="Up" parent="Connections" index="6"]
+position = Vector2(-160, -336)
+
+[node name="Up2" parent="Connections" index="7"]
+position = Vector2(160, -336)
 
 [node name="ColorRect" parent="." index="2"]
 offset_left = -320.0

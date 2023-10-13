@@ -2,30 +2,38 @@
 
 [ext_resource type="PackedScene" uid="uid://bqhsfc8id16x1" path="res://dungeonlayouteditor/Rooms/Room.tscn" id="1_ipai2"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_c626c"]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_thkc3"]
 size = Vector2(512, 480)
 
 [node name="NPCRoom" instance=ExtResource("1_ipai2")]
 room_type = "NPC"
 
 [node name="CollisionShape2D" parent="." index="0"]
-shape = SubResource("RectangleShape2D_c626c")
+shape = SubResource("RectangleShape2D_thkc3")
 
 [node name="Right" parent="Connections" index="0"]
-position = Vector2(192, 0)
-direction = "RIGHT"
+position = Vector2(256, -80)
 
-[node name="Down" parent="Connections" index="1"]
-position = Vector2(0, 176)
-direction = "DOWN"
+[node name="Right2" parent="Connections" index="1"]
+position = Vector2(256, 96)
 
-[node name="Left" parent="Connections" index="2"]
-position = Vector2(-192, 0)
-direction = "LEFT"
+[node name="Down" parent="Connections" index="2"]
+position = Vector2(96, 240)
 
-[node name="Up" parent="Connections" index="3"]
-position = Vector2(0, -176)
-direction = "UP"
+[node name="Down2" parent="Connections" index="3"]
+position = Vector2(-96, 240)
+
+[node name="Left" parent="Connections" index="4"]
+position = Vector2(-256, 96)
+
+[node name="Left2" parent="Connections" index="5"]
+position = Vector2(-256, -96)
+
+[node name="Up" parent="Connections" index="6"]
+position = Vector2(-96, -240)
+
+[node name="Up2" parent="Connections" index="7"]
+position = Vector2(96, -240)
 
 [node name="ColorRect" parent="." index="2"]
 offset_left = -192.0

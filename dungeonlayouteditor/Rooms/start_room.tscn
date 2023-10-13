@@ -12,20 +12,28 @@ room_type = "Start"
 shape = SubResource("RectangleShape2D_xcc7d")
 
 [node name="Right" parent="Connections" index="0"]
-position = Vector2(192, 0)
-direction = "RIGHT"
+position = Vector2(256, -96)
 
-[node name="Down" parent="Connections" index="1"]
-position = Vector2(0, 192)
-direction = "DOWN"
+[node name="Right2" parent="Connections" index="1"]
+position = Vector2(256, 96)
 
-[node name="Left" parent="Connections" index="2"]
-position = Vector2(-192, 0)
-direction = "LEFT"
+[node name="Down" parent="Connections" index="2"]
+position = Vector2(96, 256)
 
-[node name="Up" parent="Connections" index="3"]
-position = Vector2(0, -192)
-direction = "UP"
+[node name="Down2" parent="Connections" index="3"]
+position = Vector2(-96, 256)
+
+[node name="Left" parent="Connections" index="4"]
+position = Vector2(-256, 96)
+
+[node name="Left2" parent="Connections" index="5"]
+position = Vector2(-256, -96)
+
+[node name="Up" parent="Connections" index="6"]
+position = Vector2(-96, -256)
+
+[node name="Up2" parent="Connections" index="7"]
+position = Vector2(96, -256)
 
 [node name="ColorRect" parent="." index="2"]
 offset_left = -192.0

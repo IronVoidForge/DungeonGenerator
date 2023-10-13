@@ -2,7 +2,7 @@ extends Node2D
 
 var target_rotation = 0.0
 var rotation_done = 0.0
-var rotate_speed = PI / 3
+var rotate_speed = PI
 var is_rotate_mode = false
 
 func _process(delta: float) -> void:
@@ -11,12 +11,15 @@ func _process(delta: float) -> void:
 		if rotation_done + rotate_this_frame >= target_rotation:
 			rotate_this_frame = target_rotation - rotation_done
 			is_rotate_mode = false
+			snap()
 			if lines_crossed():
 				start_rotation()
 		_rotate_rooms(rotate_this_frame)
 		rotation_done += rotate_this_frame
+		
 		if get_parent().name == "Main" and get_parent().is_rotate_mode == true:
 			get_parent().is_rotate_mode = false
+			
 
 func save_to_scene(path: String):
 	var layout_to_save = self.duplicate()
@@ -29,6 +32,7 @@ func save_to_scene(path: String):
 func _rotate_rooms(rotate_amount):
 	var center = Vector2.ZERO  # Global origin
 	for node in get_tree().get_nodes_in_group("pickable"):
+		node.collision_shape.disabled = false
 		var direction = node.global_position - center
 		direction = direction.rotated(rotate_amount)
 		node.global_position = center + direction
@@ -38,6 +42,11 @@ func start_rotation():
 		target_rotation = (randf() * 1.5) * PI + rotation_done
 		is_rotate_mode = true
 
+func snap():
+	for node in get_tree().get_nodes_in_group("pickable"):
+		node.collision_shape.disabled = true
+		node.snap_to_grid()
+		
 func lines_crossed() -> bool:
 	var connections = get_tree().get_nodes_in_group("connections")
 	for i in range(connections.size()):

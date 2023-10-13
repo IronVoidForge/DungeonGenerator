@@ -1,6 +1,7 @@
-[gd_scene load_steps=5 format=3 uid="uid://cf0b8o4eden78"]
+[gd_scene load_steps=6 format=3 uid="uid://cf0b8o4eden78"]
 
 [ext_resource type="Texture2D" uid="uid://cqnykaf43w178" path="res://DungeonGenerator/RoomPrefabs/LVL1/Assets/TilesetInteriorFloor.png" id="1_wb8b5"]
+[ext_resource type="Script" path="res://DungeonGenerator/RoomPrefabs/RoomPrefab.gd" id="2_nohnt"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_2bwdy"]
 
@@ -23,6 +24,7 @@ sources/1 = SubResource("TileSetAtlasSource_1qdo6")
 [node name="RoomPrefab" type="TileMap"]
 tile_set = SubResource("TileSet_cgjio")
 format = 2
+script = ExtResource("2_nohnt")
 
 [node name="ColorRect" type="ColorRect" parent="."]
 self_modulate = Color(0.709804, 0, 0.286275, 0.141176)

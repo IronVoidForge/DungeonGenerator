@@ -77,6 +77,7 @@ func _on_RearrangeButton_toggled(button_pressed):
 		is_rearrange_mode = false
 	# Update the mode on all "pickable" bodies
 	for node in get_tree().get_nodes_in_group("pickable"):
+		node.settled = false
 		node.is_connect_mode = is_connect_mode
 		node.is_rearrange_mode = is_rearrange_mode
 
@@ -84,7 +85,8 @@ func _on_RotateButton_pressed():
 	# You might want to disable other modes when rotation mode is on
 	is_connect_mode = false
 	is_rearrange_mode = false
-	
+	for node in get_tree().get_nodes_in_group("pickable"):
+		node.settled = false
 	layout.start_rotation()
 
 func _on_SaveButton_pressed():

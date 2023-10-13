@@ -1,11 +1,26 @@
 extends Node2D
 
 @export var layout: PackedScene
-@onready var hallway_tilemap = $TileMap  
+@onready var hallway_tilemap = $TileMap
+@onready var wall_tilemap = $Walls
+@onready var door = preload("res://dungeon_building_blocks/door.tscn")
+@onready var doors = $Doors
 
+var wall_thickness = 2
 var layout_instance: Node
 var current_level = 1
+var surrounding_offsets = [
+	Vector2i(0, -1),  # Above
+	Vector2i(1, 0),   # Right
+	Vector2i(-1, 0),  # Left
+	Vector2i(0, 1),   # Below
+	Vector2i(1, 1),   # Bottom-right
+	Vector2i(-1, 1),  # Bottom-left
+	Vector2i(1, -1),  # Top-right
+	Vector2i(-1, -1)  # Top-left
+]
 var all_connection_points: Array = []
+var astar_grid = AStarGrid2D.new()
 # Preload room prefabs
 const BOSS_ROOM = preload("res://DungeonGenerator/RoomPrefabs/LVL1/Boss/boss_prefab_1.tscn")
 const EXIT_ROOM = preload("res://DungeonGenerator/RoomPrefabs/LVL1/Exit/exit_prefab_1.tscn")
@@ -53,55 +68,100 @@ func add_layout_to_scene():
 
 func rotate_rooms() -> void:
 	layout_instance.start_rotation()
+func initialize_astar_grid():
+	var rect = hallway_tilemap.get_used_rect()
+	rect.position -= Vector2i(5, 5)
+	rect.size += Vector2i(10, 10)
+	astar_grid.region = Rect2i(rect.position, rect.size)
+	astar_grid.cell_size = Vector2(hallway_tilemap.cell_quadrant_size, hallway_tilemap.cell_quadrant_size)
+	astar_grid.update()
+	print("AStarGrid initialized with region:", astar_grid.region)
+	
+func update_astar_grid_for_tilemap():
+	for cell in hallway_tilemap.get_used_cells(0):
+		# Ensure cell is Vector2i for consistent operations
+		cell = Vector2i(cell.x/16, cell.y/16)
+		var neighbors = [
+			cell + Vector2i(1, 0),
+			cell + Vector2i(-1, 0),
+			cell + Vector2i(0, 1),
+			cell + Vector2i(0, -1),
+			cell + Vector2i(1, 1),
+			cell + Vector2i(-1, -1),
+			cell + Vector2i(1, -1),
+			cell + Vector2i(-1, 1)
+		]
+		for neighbor in neighbors:
+			if hallway_tilemap.get_cell_source_id(0, neighbor) == -1:
+				astar_grid.set_point_solid(neighbor, true)
+	astar_grid.update()
 
 func create_hallways() -> void:
+	initialize_astar_grid()
 	for con in get_tree().get_nodes_in_group("connections"):
+		update_astar_grid_for_tilemap()
 		var start_point = con.get_point_position(0)
 		var end_point = con.get_point_position(1)
-		
-		var start_type = con.current_point1.direction
-		var end_type = con.current_point2.direction
+		room_extension(con)
+	# Get the cell positions for the start and end points
+		var start_cell = hallway_tilemap.local_to_map(hallway_tilemap.to_local(start_point))
+		var end_cell = hallway_tilemap.local_to_map(hallway_tilemap.to_local(end_point))
+	# Find the path using AStarGrid2D
+		var path = astar_grid.get_point_path(start_cell, end_cell)
 
-		if start_type in ["UP", "DOWN"]:
-			if end_type in ["UP", "DOWN"]:
-				create_vertical_hallway(start_point, Vector2(start_point.x, (start_point.y + end_point.y) / 2))
-				create_horizontal_hallway(Vector2(start_point.x, (start_point.y + end_point.y) / 2), end_point)
-				create_vertical_hallway(Vector2(end_point.x, (start_point.y + end_point.y) / 2), end_point)
-			elif end_type in ["LEFT", "RIGHT"]:
-				create_vertical_hallway(start_point, Vector2(start_point.x, end_point.y))
-				create_horizontal_hallway(Vector2(start_point.x, end_point.y), end_point)
-
-		if start_type in ["LEFT", "RIGHT"]:
-			if end_type in ["UP", "DOWN"]:
-				create_horizontal_hallway(start_point, Vector2(end_point.x, start_point.y))
-				create_vertical_hallway(Vector2(end_point.x, start_point.y), end_point)
-			elif end_type in ["LEFT", "RIGHT"]:
-				create_horizontal_hallway(start_point, Vector2((start_point.x + end_point.x) / 2, start_point.y))
-				create_vertical_hallway(Vector2((start_point.x + end_point.x) / 2, start_point.y), Vector2((start_point.x + end_point.x) / 2, end_point.y))
-				create_horizontal_hallway(Vector2((start_point.x + end_point.x) / 2, end_point.y), end_point)
-
-func create_vertical_hallway(start: Vector2, end: Vector2):
-	var step = 1 if start.y < end.y else -1
-	var current_y = start.y
-	while (step == 1 && current_y < end.y) || (step == -1 && current_y > end.y):
-		set_tile_at_world_position(Vector2(start.x, current_y))
-		current_y += step * 16
-	set_tile_at_world_position(end)
-
-func create_horizontal_hallway(start: Vector2, end: Vector2):
-	var step = 1 if start.x < end.x else -1
-	var current_x = start.x
-	while (step == 1 && current_x < end.x) || (step == -1 && current_x > end.x):
-		set_tile_at_world_position(Vector2(current_x, start.y))
-		current_x += step * 16
-	set_tile_at_world_position(end)
-
+		for point in path:
+			var surrounding_offsets = [
+				Vector2(0, 0),  # Central point
+				Vector2(-1, 0),  # Right of the central point
+				Vector2(0, -1),  # Above the central point
+				Vector2(-1, -1)   # Diagonally top-right from the central point
+				]
+			for offset in surrounding_offsets:
+				var stamp_point = point + offset * 16  # multiplying by 16 if necessary
+				# Here, check if the cell at 'stamp_point' is open before placing a tile
+				if hallway_tilemap.get_cell_source_id(0, stamp_point) == -1:
+					set_tile_at_world_position(hallway_tilemap.map_to_local(stamp_point/16))
 	
+func extend_room_from_point(point, direction):
+	var extension_length = 8 * 16  # 4 tiles, assuming each tile is 16x16
+	var hallway_width = 2 * 16
+
+	var start = Vector2()
+	var end = Vector2()
+
+	if direction == "DOWN":
+		start = point + Vector2(-hallway_width/2, 0)
+		end = point + Vector2(hallway_width/2, -extension_length)
+	elif direction == "RIGHT":
+		start = point + Vector2(0, -hallway_width/2)
+		end = point + Vector2(-extension_length, hallway_width/2)
+	elif direction == "UP":
+		start = point + Vector2(-hallway_width/2, 0)
+		end = point + Vector2(hallway_width/2, extension_length)
+	elif direction == "LEFT":
+		start = point + Vector2(0, -hallway_width/2)
+		end = point + Vector2(extension_length, hallway_width/2)
+
+	# Create a rectangle from the start to end points
+	var top_left = Vector2(min(start.x, end.x), min(start.y, end.y))
+	var bottom_right = Vector2(max(start.x, end.x), max(start.y, end.y))
+
+	for x in range(top_left.x, bottom_right.x, 16):
+		for y in range(top_left.y, bottom_right.y, 16):
+			set_tile_at_world_position(Vector2(x, y))
+			
+			
+func room_extension(con):
+	# Extend from first connection point
+	extend_room_from_point(con.get_point_position(0), con.current_point1.direction)
+	# Extend from second connection point
+	extend_room_from_point(con.get_point_position(1), con.current_point2.direction)
+
 func set_tile_at_world_position(pos: Vector2):
-	# Convert the world position to the TileMap's cell position.
+	# Convert the snapped world position to the TileMap's cell position
 	var cell_position = hallway_tilemap.local_to_map(pos)
-	hallway_tilemap.set_cell(0, cell_position, 1, Vector2(1,7))
-	
+	hallway_tilemap.set_cell(0, cell_position, 0, Vector2(0,0))
+
 	
 func generate() -> void:
 	for room in get_tree().get_nodes_in_group("pickable"):
@@ -166,4 +226,84 @@ func generate() -> void:
 				instance.add_to_group("rooms")
 				instance.global_position = room.global_position
 
+	draw_full_dungeon()
+
+func draw_full_dungeon():
+	for prefab in get_tree().get_nodes_in_group("prefabs"):
+		draw_from_prefab(prefab)
+		prefab.queue_free()
 	create_hallways()
+	create_walls()
+	expand_border(wall_thickness)
+	place_doors()
+	for room in get_tree().get_nodes_in_group("pickable"):
+		room.queue_free()
+
+func draw_from_prefab(prefab: Node2D):
+	# Assuming prefab has a TileMap node as its direct child
+	var prefab_tilemap = prefab
+	if prefab_tilemap and prefab_tilemap is TileMap:
+		var layer = 0 # Assuming we're working with the first layer, change as needed
+		for cell in prefab_tilemap.get_used_cells(layer):
+			var tile_source_id = prefab_tilemap.get_cell_source_id(layer, cell)
+			if tile_source_id != -1: # Check if the cell is set
+				# Translate the prefab cell position to its local world position
+				var local_pos = prefab_tilemap.map_to_local(cell)
+				# Adjust for the prefab's global position
+				var global_pos = prefab.global_position + local_pos
+				# Use the provided function to set the tile at the given world position
+				set_tile_at_world_position(global_pos)
+
+func place_doors():
+	for con in get_tree().get_nodes_in_group("connections"):
+		var door1 = door.instantiate()
+		var door2 = door.instantiate()
+		var connection_point1 = con.current_point1
+		var connection_point2 = con.current_point2
+		doors.add_child(door1)
+		doors.add_child(door2)
+		turn_doors(connection_point1, door1)
+		turn_doors(connection_point2, door2)
+
+func turn_doors(connection, mydoor):
+	mydoor.global_position = connection.global_position
+	if connection.direction == "DOWN":
+		mydoor.rotation = 0
+	if connection.direction == "LEFT":
+		mydoor.rotation = PI/2
+	if connection.direction == "UP":
+		mydoor.rotation = PI
+	if connection.direction == "RIGHT":
+		mydoor.rotation = 3*PI/2
+
+func create_walls() -> void:
+	for cell in hallway_tilemap.get_used_cells(0):
+			var cells_to_update = []
+			# Check each surrounding cell
+			for offset in surrounding_offsets:
+				var adjacent_cell = cell + offset
+				# If the surrounding cell is unoccupied in the hallway_tilemap
+				if hallway_tilemap.get_cell_source_id(0, adjacent_cell) == -1:
+					# Place a wall tile in the wall_tilemap at that cell
+					# Assuming you want to set the tile at the 0th layer and the 0th source id for walls
+					cells_to_update.append(adjacent_cell)
+			wall_tilemap.set_cells_terrain_connect(0, cells_to_update, 0,0, true)
+			
+func expand_border(thickness: int) -> void:
+	var original_wall_cells = Dictionary()
+	for cell in wall_tilemap.get_used_cells(0):
+		original_wall_cells[cell] = true
+
+	for i in range(thickness):
+		var new_wall_cells = Dictionary()
+		for cell in original_wall_cells.keys():
+			for offset in surrounding_offsets:
+				var adjacent_cell = cell + offset
+				if hallway_tilemap.get_cell_source_id(0, adjacent_cell) == -1 and wall_tilemap.get_cell_source_id(0, adjacent_cell) == -1 and not new_wall_cells.has(adjacent_cell):
+					new_wall_cells[adjacent_cell] = true
+		# Merge the new cells with the original cells
+		original_wall_cells.merge(new_wall_cells)
+	# Update the wall_tilemap cells with terrain connectivity for all wall cells
+	var all_wall_cells = original_wall_cells.keys()
+	wall_tilemap.set_cells_terrain_connect(0, all_wall_cells, 0, 0, true)
+

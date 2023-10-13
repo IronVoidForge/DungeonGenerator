@@ -3,5 +3,6 @@
 [ext_resource type="Script" path="res://dungeonlayouteditor/connection_line.gd" id="1_vs1bc"]
 
 [node name="ConnectionLine" type="Line2D"]
-width = 6.0
+width = 4.0
+default_color = Color(0.780392, 0.160784, 0.494118, 1)
 script = ExtResource("1_vs1bc")

@@ -19,19 +19,35 @@ shape = SubResource("RectangleShape2D_0qt2d")
 
 [node name="Right" type="Marker2D" parent="Connections"]
 script = ExtResource("2_0bwyb")
-direction = 3
+direction = "RIGHT"
+
+[node name="Right2" type="Marker2D" parent="Connections"]
+script = ExtResource("2_0bwyb")
+direction = "RIGHT"
 
 [node name="Down" type="Marker2D" parent="Connections"]
 script = ExtResource("2_0bwyb")
-direction = 1
+direction = "DOWN"
+
+[node name="Down2" type="Marker2D" parent="Connections"]
+script = ExtResource("2_0bwyb")
+direction = "DOWN"
 
 [node name="Left" type="Marker2D" parent="Connections"]
 script = ExtResource("2_0bwyb")
-direction = 2
+direction = "LEFT"
+
+[node name="Left2" type="Marker2D" parent="Connections"]
+script = ExtResource("2_0bwyb")
+direction = "LEFT"
 
 [node name="Up" type="Marker2D" parent="Connections"]
 script = ExtResource("2_0bwyb")
-direction = 0
+direction = "UP"
+
+[node name="Up2" type="Marker2D" parent="Connections"]
+script = ExtResource("2_0bwyb")
+direction = "UP"
 
 [node name="ColorRect" type="ColorRect" parent="."]
 modulate = Color(1, 1, 1, 0.717647)

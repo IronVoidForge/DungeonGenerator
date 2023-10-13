@@ -5,8 +5,9 @@ var is_connect_mode = false
 var is_rearrange_mode = false
 var last_position = Vector2()
 var grid_size = 16
-var spacing = 128
+var spacing = 128+64
 var is_sized = false
+var settled = false
 @onready var connection_container = $Connections
 @onready var timer = $Timer
 @onready var collision_shape =$CollisionShape2D
@@ -31,6 +32,8 @@ func _physics_process(_delta):
 		_wake_all_rigid_bodies()
 	if is_being_dragged and is_rearrange_mode:
 		global_position = get_global_mouse_position()
+	if settled == true:
+		snap_to_grid()
 
 func _input_event(_viewport, event, _shape_idx):
 	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT:
@@ -45,13 +48,13 @@ func _input_event(_viewport, event, _shape_idx):
 			is_being_dragged = false
 
 func _wake_all_rigid_bodies():
-	for i in range(5):  # Wake up 3 times
-		for node in get_tree().get_nodes_in_group("pickable"):
-			if node is RigidBody2D:
-				collision_shape.disabled = false
-				node.sleeping = false
-		await get_tree().create_timer(0.125).timeout
-#	snap_to_grid()
+	if settled == false:
+		for i in range(5):  # Wake up 3 times
+			for node in get_tree().get_nodes_in_group("pickable"):
+				if node is RigidBody2D:
+					collision_shape.disabled = false
+					node.sleeping = false
+			await get_tree().create_timer(0.125).timeout
 
 func get_unused_connections():
 	var unused: Array =[]
@@ -67,10 +70,8 @@ func _on_timer_timeout() -> void:
 	_wake_all_rigid_bodies()
 
 func snap_to_grid():
-	for node in get_tree().get_nodes_in_group("pickable"):
-		if node is RigidBody2D:
-			collision_shape.disabled = false
-			var snapped_x = round(node.global_position.x / grid_size) * grid_size
-			var snapped_y = round(node.global_position.y / grid_size) * grid_size
-			node.global_position = Vector2(snapped_x, snapped_y)
-		
+	settled = true
+	var snapped_x = round(self.global_position.x / grid_size) * grid_size
+	var snapped_y = round(self.global_position.y / grid_size) * grid_size
+	self.global_position = Vector2(snapped_x, snapped_y)
+
