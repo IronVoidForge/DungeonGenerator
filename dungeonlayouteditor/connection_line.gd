@@ -63,11 +63,11 @@ func update_line():
 		current_point1 = point1
 		current_point2 = point2
 
-func find_closest_points(room1, room2):
+func find_closest_points(r1, r2):
 	var min_distance = INF
 	var closest_pair = [null, null]
-	var room1_points = room1.get_unused_connections()
-	var room2_points = room2.get_unused_connections()
+	var room1_points = r1.get_unused_connections()
+	var room2_points = r2.get_unused_connections()
 	for point1 in room1_points:
 		for point2 in room2_points:
 			var distance = point1.global_position.distance_to(point2.global_position)

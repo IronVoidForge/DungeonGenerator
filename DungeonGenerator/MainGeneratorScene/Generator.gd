@@ -33,6 +33,8 @@ var ROOM_MAP = {
 }
 var all_connection_points: Array = []
 var astar_grid = AStarGrid2D.new()
+var astar = AStar2D.new()
+var astar_rect : Rect2i
 # Preload room prefabs
 const BOSS_ROOM = preload("res://DungeonGenerator/RoomPrefabs/LVL1/Boss/boss_prefab_1.tscn")
 const EXIT_ROOM = preload("res://DungeonGenerator/RoomPrefabs/LVL1/Exit/exit_prefab_1.tscn")
@@ -85,7 +87,7 @@ func initialize_astar_grid():
 	astar_grid.cell_size = Vector2(floor_tilemap.cell_quadrant_size, floor_tilemap.cell_quadrant_size)
 	astar_grid.update()
 	print("AStarGrid initialized with region:", astar_grid.region)
-	
+
 func update_astar_grid_for_tilemap():
 	for cell in floor_tilemap.get_used_cells(0):
 		# Ensure cell is Vector2i for consistent operations
@@ -119,19 +121,19 @@ func create_hallways() -> void:
 	# Find the path using AStarGrid2D
 		var path = astar_grid.get_point_path(start_cell, end_cell)
 		for point in path:
-			var surrounding_offsets = [
+			var offsets = [
 				Vector2(0, 0),  # Central point
 				Vector2(-1, 0),  # Right of the central point
 				Vector2(0, -1),  # Above the central point
 				Vector2(-1, -1)   # Diagonally top-right from the central point
 				]
-			for offset in surrounding_offsets:
+			for offset in offsets:
 				var stamp_point = point + offset * 16  # multiplying by 16 if necessary
 				# Here, check if the cell at 'stamp_point' is open before placing a tile
 				if floor_tilemap.get_cell_source_id(0, stamp_point) == -1:
 					cells_to_update.append(floor_tilemap.local_to_map(stamp_point))
 	set_tile_at_world_positions(cells_to_update)
-	
+
 func extend_room_from_point(point, direction):
 	var extension_length_cells = 8  # 8 cells
 	var hallway_width_cells = 2
@@ -263,7 +265,6 @@ func expand_border(thickness: int) -> void:
 	var original_wall_cells = Dictionary()
 	for cell in wall_tilemap.get_used_cells(0):
 		original_wall_cells[cell] = true
-
 	for i in range(thickness):
 		var new_wall_cells = Dictionary()
 		for cell in original_wall_cells.keys():
