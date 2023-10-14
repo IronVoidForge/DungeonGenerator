@@ -6,7 +6,7 @@ extends Node2D
 @onready var door = preload("res://dungeon_building_blocks/door.tscn")
 @onready var doors = $Doors
 
-var wall_thickness = 2
+var wall_thickness = 1
 var layout_instance: Node
 var current_level = 1
 var surrounding_offsets = [
@@ -19,6 +19,18 @@ var surrounding_offsets = [
 	Vector2i(1, -1),  # Top-right
 	Vector2i(-1, -1)  # Top-left
 ]
+var ROOM_MAP = {
+	"Start": START_ROOM,
+	"Normal": NORMAL_ROOM,
+	"Boss": BOSS_ROOM,
+	"Exit": EXIT_ROOM,
+	"Key": KEY_ROOM,
+	"NPC": NPC_ROOM,
+	"PreBoss": PREBOSS_ROOM,
+	"Secret": SECRET_ROOM,
+	"Shop": SHOP_ROOM,
+	"Treasure": TREASURE_ROOM
+}
 var all_connection_points: Array = []
 var astar_grid = AStarGrid2D.new()
 # Preload room prefabs
@@ -38,12 +50,9 @@ func _ready() -> void:
 	for room in get_tree().get_nodes_in_group("pickable"):
 		for point in room.get_unused_connections():
 			all_connection_points.append(point)
-	for con in get_tree().get_nodes_in_group("connections"):
-		# Get closest connection points for each endpoint of the connection line
+	for con in get_tree().get_nodes_in_group("connections"): # Get closest connection points for each endpoint of the connection line
 		var start_point_room = _get_room_with_closest_connection_point(con.get_point_position(0), all_connection_points)
 		var end_point_room = _get_room_with_closest_connection_point(con.get_point_position(1), all_connection_points)
-		
-		# Set these rooms as room1 and room2 for the connection
 		con.set_rooms(start_point_room, end_point_room)
 
 func _process(delta: float) -> void:
@@ -109,7 +118,6 @@ func create_hallways() -> void:
 		var end_cell = floor_tilemap.local_to_map(floor_tilemap.to_local(end_point))
 	# Find the path using AStarGrid2D
 		var path = astar_grid.get_point_path(start_cell, end_cell)
-
 		for point in path:
 			var surrounding_offsets = [
 				Vector2(0, 0),  # Central point
@@ -121,39 +129,38 @@ func create_hallways() -> void:
 				var stamp_point = point + offset * 16  # multiplying by 16 if necessary
 				# Here, check if the cell at 'stamp_point' is open before placing a tile
 				if floor_tilemap.get_cell_source_id(0, stamp_point) == -1:
-#					set_tile_at_world_position(floor_tilemap.map_to_local(stamp_point/16))
 					cells_to_update.append(floor_tilemap.local_to_map(stamp_point))
 	set_tile_at_world_positions(cells_to_update)
 	
 func extend_room_from_point(point, direction):
-	var extension_length = 8 * 16  # 4 tiles, assuming each tile is 16x16
-	var hallway_width = 2 * 16
-
-	var start = Vector2()
-	var end = Vector2()
+	var extension_length_cells = 8  # 8 cells
+	var hallway_width_cells = 2
+	var start_cell = Vector2()
+	var end_cell = Vector2()
+	point = floor_tilemap.local_to_map(point)  # Convert point from world position to cell position
 
 	if direction == "DOWN":
-		start = point + Vector2(-hallway_width/2, 0)
-		end = point + Vector2(hallway_width/2, -extension_length)
-	elif direction == "RIGHT":
-		start = point + Vector2(0, -hallway_width/2)
-		end = point + Vector2(-extension_length, hallway_width/2)
-	elif direction == "UP":
-		start = point + Vector2(-hallway_width/2, 0)
-		end = point + Vector2(hallway_width/2, extension_length)
+		start_cell = point + Vector2i(-hallway_width_cells/2, 0)
+		end_cell = point + Vector2i(hallway_width_cells/2, -extension_length_cells)
 	elif direction == "LEFT":
-		start = point + Vector2(0, -hallway_width/2)
-		end = point + Vector2(extension_length, hallway_width/2)
+		start_cell = point + Vector2i(0, -hallway_width_cells/2)
+		end_cell = point + Vector2i(extension_length_cells, hallway_width_cells/2)
+	elif direction == "UP":
+		start_cell = point + Vector2i(-hallway_width_cells/2, 0)
+		end_cell = point + Vector2i(hallway_width_cells/2, extension_length_cells)
+	elif direction == "RIGHT":
+		start_cell = point + Vector2i(0, -hallway_width_cells/2)
+		end_cell = point + Vector2i(-extension_length_cells, hallway_width_cells/2)
+	# Create a rectangle from the start to end cell positions
+	var top_left_cell = Vector2i(min(start_cell.x, end_cell.x), min(start_cell.y, end_cell.y))
+	var bottom_right_cell = Vector2i(max(start_cell.x, end_cell.x), max(start_cell.y, end_cell.y))
 
-	# Create a rectangle from the start to end points
-	var top_left = Vector2(min(start.x, end.x), min(start.y, end.y))
-	var bottom_right = Vector2(max(start.x, end.x), max(start.y, end.y))
+	var cells_to_update = []
+	for x in range(top_left_cell.x, bottom_right_cell.x):  # "+ 1" to include the end cell
+		for y in range(top_left_cell.y, bottom_right_cell.y):
+			cells_to_update.append(Vector2(x, y))
+	set_tile_at_world_positions(cells_to_update)
 
-	for x in range(top_left.x, bottom_right.x, 16):
-		for y in range(top_left.y, bottom_right.y, 16):
-			set_tile_at_world_position(Vector2(x, y))
-			
-			
 func room_extension(con):
 	# Extend from first connection point
 	extend_room_from_point(con.get_point_position(0), con.current_point1.direction)
@@ -170,100 +177,54 @@ func set_tile_at_world_position(pos: Vector2):
 #	floor_tilemap.set_cell(0, cell_position, 0, Vector2(0,0))
 	floor_tilemap.set_cells_terrain_connect(0, cells_to_update, 0,0, true)
 
-
 func generate() -> void:
 	for room in get_tree().get_nodes_in_group("pickable"):
-		match room.room_type:
-			"Start":
-				var instance = START_ROOM.instantiate()
-				self.add_child(instance)
-				instance.add_to_group("rooms")
-				instance.global_position = room.global_position
-
-			"Normal":
-				var instance = NORMAL_ROOM.instantiate()
-				self.add_child(instance)
-				instance.add_to_group("rooms")
-				instance.global_position = room.global_position
-
-			"Boss":
-				var instance = BOSS_ROOM.instantiate()
-				self.add_child(instance)
-				instance.add_to_group("rooms")
-				instance.global_position = room.global_position
-
-			"Exit":
-				var instance = EXIT_ROOM.instantiate()
-				self.add_child(instance)
-				instance.add_to_group("rooms")
-				instance.global_position = room.global_position
-
-			"Key":
-				var instance = KEY_ROOM.instantiate()
-				self.add_child(instance)
-				instance.add_to_group("rooms")
-				instance.global_position = room.global_position
-
-			"NPC":
-				var instance = NPC_ROOM.instantiate()
-				self.add_child(instance)
-				instance.add_to_group("rooms")
-				instance.global_position = room.global_position
-
-			"PreBoss":
-				var instance = PREBOSS_ROOM.instantiate()
-				self.add_child(instance)
-				instance.add_to_group("rooms")
-				instance.global_position = room.global_position
-
-			"Secret":
-				var instance = SECRET_ROOM.instantiate()
-				self.add_child(instance)
-				instance.add_to_group("rooms")
-				instance.global_position = room.global_position
-
-			"Shop":
-				var instance = SHOP_ROOM.instantiate()
-				self.add_child(instance)
-				instance.add_to_group("rooms")
-				instance.global_position = room.global_position
-
-			"Treasure":
-				var instance = TREASURE_ROOM.instantiate()
-				self.add_child(instance)
-				instance.add_to_group("rooms")
-				instance.global_position = room.global_position
-
+		if ROOM_MAP.has(room.room_type):
+			instantiate_and_reparent(room, ROOM_MAP[room.room_type])
 	draw_full_dungeon()
-
+	
+func instantiate_and_reparent(room, room_node):
+	var instance = room_node.instantiate()
+	self.add_child(instance)
+	instance.add_to_group("rooms")
+	instance.global_position = room.global_position
+	var connections = room.connection_container
+	if connections:
+		while connections.get_child_count() > 0:
+			var child = connections.get_child(0)
+			connections.remove_child(child)
+			instance.connection_points.add_child(child)
+			
 func draw_full_dungeon():
 	for prefab in get_tree().get_nodes_in_group("prefabs"):
 		draw_from_prefab(prefab)
-		prefab.queue_free()
+		prefab.clear()
+		prefab.room_area.visible = false
 	create_hallways()
+	print("hallways done")
 	create_walls()
+	print("walls done")
 	expand_border(wall_thickness)
+	print("walls thick done")
 	place_doors()
 	for room in get_tree().get_nodes_in_group("pickable"):
 		room.queue_free()
 
 func draw_from_prefab(prefab: Node2D):
-	# Assuming prefab has a TileMap node as its direct child
-	var prefab_tilemap = prefab
 	var cells_to_update = []
-	if prefab_tilemap and prefab_tilemap is TileMap:
+	if prefab and prefab is TileMap:
 		var layer = 0 # Assuming we're working with the first layer, change as needed
-		for cell in prefab_tilemap.get_used_cells(layer):
-			var tile_source_id = prefab_tilemap.get_cell_source_id(layer, cell)
+		for cell in prefab.get_used_cells(layer):
+			var tile_source_id = prefab.get_cell_source_id(layer, cell)
 			if tile_source_id != -1: # Check if the cell is set
 				# Translate the prefab cell position to its local world position
-				var local_pos = prefab_tilemap.map_to_local(cell)
+				var local_pos = prefab.map_to_local(cell)
 				# Adjust for the prefab's global position
 				var global_pos = prefab.global_position + local_pos
 				# Use the provided function to set the tile at the given world position
 				cells_to_update.append(floor_tilemap.local_to_map(global_pos))
-#				set_tile_at_world_position(global_pos)
 	set_tile_at_world_positions(cells_to_update)
+	
 func place_doors():
 	for con in get_tree().get_nodes_in_group("connections"):
 		var door1 = door.instantiate()
@@ -295,7 +256,6 @@ func create_walls() -> void:
 				# If the surrounding cell is unoccupied in the hallway_tilemap
 				if floor_tilemap.get_cell_source_id(0, adjacent_cell) == -1:
 					# Place a wall tile in the wall_tilemap at that cell
-					# Assuming you want to set the tile at the 0th layer and the 0th source id for walls
 					cells_to_update.append(adjacent_cell)
 			wall_tilemap.set_cells_terrain_connect(0, cells_to_update, 0,0, true)
 			

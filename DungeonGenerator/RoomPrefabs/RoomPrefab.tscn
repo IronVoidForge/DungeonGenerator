@@ -32,3 +32,15 @@ offset_left = -384.0
 offset_top = -256.0
 offset_right = 384.0
 offset_bottom = 256.0
+
+[node name="Doors" type="Node2D" parent="."]
+
+[node name="Enemies" type="Node2D" parent="."]
+
+[node name="Items" type="Node2D" parent="."]
+
+[node name="ConnectionPoints" type="Node2D" parent="."]
+
+[node name="PlayerDetector" type="Area2D" parent="."]
+
+[connection signal="body_entered" from="PlayerDetector" to="." method="_on_player_detector_body_entered"]

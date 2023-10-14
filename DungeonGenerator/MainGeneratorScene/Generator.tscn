@@ -23,3 +23,5 @@ tile_set = ExtResource("5_rqxu8")
 format = 2
 
 [node name="Doors" type="Node2D" parent="."]
+
+[node name="Prefabs" type="Node2D" parent="."]
