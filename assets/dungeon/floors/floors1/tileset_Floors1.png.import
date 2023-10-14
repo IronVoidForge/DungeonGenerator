@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dw128aslaer0l"
-path="res://.godot/imported/Walls1.png-657fb3fd6e96c34dccd3ce9a1b01c7d6.ctex"
+uid="uid://cmke1smix07t2"
+path="res://.godot/imported/tileset_Floors1.png-90b192ac4b911bf8ddd0c4f54f4debd2.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/dungeon/walls/walls1/Walls1.png"
-dest_files=["res://.godot/imported/Walls1.png-657fb3fd6e96c34dccd3ce9a1b01c7d6.ctex"]
+source_file="res://assets/dungeon/floors/floors1/tileset_Floors1.png"
+dest_files=["res://.godot/imported/tileset_Floors1.png-90b192ac4b911bf8ddd0c4f54f4debd2.ctex"]
 
 [params]
 

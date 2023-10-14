@@ -1,7 +1,7 @@
 extends Node2D
 
 @export var layout: PackedScene
-@onready var hallway_tilemap = $TileMap
+@onready var floor_tilemap = $Floors
 @onready var wall_tilemap = $Walls
 @onready var door = preload("res://dungeon_building_blocks/door.tscn")
 @onready var doors = $Doors
@@ -69,16 +69,16 @@ func add_layout_to_scene():
 func rotate_rooms() -> void:
 	layout_instance.start_rotation()
 func initialize_astar_grid():
-	var rect = hallway_tilemap.get_used_rect()
+	var rect = floor_tilemap.get_used_rect()
 	rect.position -= Vector2i(5, 5)
 	rect.size += Vector2i(10, 10)
 	astar_grid.region = Rect2i(rect.position, rect.size)
-	astar_grid.cell_size = Vector2(hallway_tilemap.cell_quadrant_size, hallway_tilemap.cell_quadrant_size)
+	astar_grid.cell_size = Vector2(floor_tilemap.cell_quadrant_size, floor_tilemap.cell_quadrant_size)
 	astar_grid.update()
 	print("AStarGrid initialized with region:", astar_grid.region)
 	
 func update_astar_grid_for_tilemap():
-	for cell in hallway_tilemap.get_used_cells(0):
+	for cell in floor_tilemap.get_used_cells(0):
 		# Ensure cell is Vector2i for consistent operations
 		cell = Vector2i(cell.x/16, cell.y/16)
 		var neighbors = [
@@ -92,20 +92,21 @@ func update_astar_grid_for_tilemap():
 			cell + Vector2i(-1, 1)
 		]
 		for neighbor in neighbors:
-			if hallway_tilemap.get_cell_source_id(0, neighbor) == -1:
+			if floor_tilemap.get_cell_source_id(0, neighbor) == -1:
 				astar_grid.set_point_solid(neighbor, true)
 	astar_grid.update()
 
 func create_hallways() -> void:
 	initialize_astar_grid()
+	var cells_to_update = []
 	for con in get_tree().get_nodes_in_group("connections"):
 		update_astar_grid_for_tilemap()
 		var start_point = con.get_point_position(0)
 		var end_point = con.get_point_position(1)
 		room_extension(con)
 	# Get the cell positions for the start and end points
-		var start_cell = hallway_tilemap.local_to_map(hallway_tilemap.to_local(start_point))
-		var end_cell = hallway_tilemap.local_to_map(hallway_tilemap.to_local(end_point))
+		var start_cell = floor_tilemap.local_to_map(floor_tilemap.to_local(start_point))
+		var end_cell = floor_tilemap.local_to_map(floor_tilemap.to_local(end_point))
 	# Find the path using AStarGrid2D
 		var path = astar_grid.get_point_path(start_cell, end_cell)
 
@@ -119,8 +120,10 @@ func create_hallways() -> void:
 			for offset in surrounding_offsets:
 				var stamp_point = point + offset * 16  # multiplying by 16 if necessary
 				# Here, check if the cell at 'stamp_point' is open before placing a tile
-				if hallway_tilemap.get_cell_source_id(0, stamp_point) == -1:
-					set_tile_at_world_position(hallway_tilemap.map_to_local(stamp_point/16))
+				if floor_tilemap.get_cell_source_id(0, stamp_point) == -1:
+#					set_tile_at_world_position(floor_tilemap.map_to_local(stamp_point/16))
+					cells_to_update.append(floor_tilemap.local_to_map(stamp_point))
+	set_tile_at_world_positions(cells_to_update)
 	
 func extend_room_from_point(point, direction):
 	var extension_length = 8 * 16  # 4 tiles, assuming each tile is 16x16
@@ -156,13 +159,18 @@ func room_extension(con):
 	extend_room_from_point(con.get_point_position(0), con.current_point1.direction)
 	# Extend from second connection point
 	extend_room_from_point(con.get_point_position(1), con.current_point2.direction)
-
+func set_tile_at_world_positions(cells: Array):
+	floor_tilemap.set_cells_terrain_connect(0, cells, 0, 0, true)
+	
 func set_tile_at_world_position(pos: Vector2):
 	# Convert the snapped world position to the TileMap's cell position
-	var cell_position = hallway_tilemap.local_to_map(pos)
-	hallway_tilemap.set_cell(0, cell_position, 0, Vector2(0,0))
+	var cell_position = floor_tilemap.local_to_map(pos)
+	var cells_to_update =[]
+	cells_to_update.append(cell_position)
+#	floor_tilemap.set_cell(0, cell_position, 0, Vector2(0,0))
+	floor_tilemap.set_cells_terrain_connect(0, cells_to_update, 0,0, true)
 
-	
+
 func generate() -> void:
 	for room in get_tree().get_nodes_in_group("pickable"):
 		match room.room_type:
@@ -242,6 +250,7 @@ func draw_full_dungeon():
 func draw_from_prefab(prefab: Node2D):
 	# Assuming prefab has a TileMap node as its direct child
 	var prefab_tilemap = prefab
+	var cells_to_update = []
 	if prefab_tilemap and prefab_tilemap is TileMap:
 		var layer = 0 # Assuming we're working with the first layer, change as needed
 		for cell in prefab_tilemap.get_used_cells(layer):
@@ -252,8 +261,9 @@ func draw_from_prefab(prefab: Node2D):
 				# Adjust for the prefab's global position
 				var global_pos = prefab.global_position + local_pos
 				# Use the provided function to set the tile at the given world position
-				set_tile_at_world_position(global_pos)
-
+				cells_to_update.append(floor_tilemap.local_to_map(global_pos))
+#				set_tile_at_world_position(global_pos)
+	set_tile_at_world_positions(cells_to_update)
 func place_doors():
 	for con in get_tree().get_nodes_in_group("connections"):
 		var door1 = door.instantiate()
@@ -277,13 +287,13 @@ func turn_doors(connection, mydoor):
 		mydoor.rotation = 3*PI/2
 
 func create_walls() -> void:
-	for cell in hallway_tilemap.get_used_cells(0):
+	for cell in floor_tilemap.get_used_cells(0):
 			var cells_to_update = []
 			# Check each surrounding cell
 			for offset in surrounding_offsets:
 				var adjacent_cell = cell + offset
 				# If the surrounding cell is unoccupied in the hallway_tilemap
-				if hallway_tilemap.get_cell_source_id(0, adjacent_cell) == -1:
+				if floor_tilemap.get_cell_source_id(0, adjacent_cell) == -1:
 					# Place a wall tile in the wall_tilemap at that cell
 					# Assuming you want to set the tile at the 0th layer and the 0th source id for walls
 					cells_to_update.append(adjacent_cell)
@@ -299,7 +309,7 @@ func expand_border(thickness: int) -> void:
 		for cell in original_wall_cells.keys():
 			for offset in surrounding_offsets:
 				var adjacent_cell = cell + offset
-				if hallway_tilemap.get_cell_source_id(0, adjacent_cell) == -1 and wall_tilemap.get_cell_source_id(0, adjacent_cell) == -1 and not new_wall_cells.has(adjacent_cell):
+				if floor_tilemap.get_cell_source_id(0, adjacent_cell) == -1 and wall_tilemap.get_cell_source_id(0, adjacent_cell) == -1 and not new_wall_cells.has(adjacent_cell):
 					new_wall_cells[adjacent_cell] = true
 		# Merge the new cells with the original cells
 		original_wall_cells.merge(new_wall_cells)
