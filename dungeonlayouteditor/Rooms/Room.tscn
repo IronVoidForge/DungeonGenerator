@@ -1,7 +1,8 @@
-[gd_scene load_steps=4 format=3 uid="uid://bqhsfc8id16x1"]
+[gd_scene load_steps=5 format=3 uid="uid://bqhsfc8id16x1"]
 
 [ext_resource type="Script" path="res://dungeonlayouteditor/Rooms/Room.gd" id="1_x1ygx"]
 [ext_resource type="Script" path="res://dungeonlayouteditor/Rooms/room_buttons/ConnectionPoint.gd" id="2_0bwyb"]
+[ext_resource type="Texture2D" uid="uid://dqgayo1djqyk8" path="res://assets/dungeon/marker.png" id="3_6dynd"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_0qt2d"]
 
@@ -21,33 +22,57 @@ shape = SubResource("RectangleShape2D_0qt2d")
 script = ExtResource("2_0bwyb")
 direction = "RIGHT"
 
+[node name="Sprite2D" type="Sprite2D" parent="Connections/Right"]
+texture = ExtResource("3_6dynd")
+
 [node name="Right2" type="Marker2D" parent="Connections"]
 script = ExtResource("2_0bwyb")
 direction = "RIGHT"
+
+[node name="Sprite2D" type="Sprite2D" parent="Connections/Right2"]
+texture = ExtResource("3_6dynd")
 
 [node name="Down" type="Marker2D" parent="Connections"]
 script = ExtResource("2_0bwyb")
 direction = "DOWN"
 
+[node name="Sprite2D" type="Sprite2D" parent="Connections/Down"]
+texture = ExtResource("3_6dynd")
+
 [node name="Down2" type="Marker2D" parent="Connections"]
 script = ExtResource("2_0bwyb")
 direction = "DOWN"
+
+[node name="Sprite2D" type="Sprite2D" parent="Connections/Down2"]
+texture = ExtResource("3_6dynd")
 
 [node name="Left" type="Marker2D" parent="Connections"]
 script = ExtResource("2_0bwyb")
 direction = "LEFT"
 
+[node name="Sprite2D" type="Sprite2D" parent="Connections/Left"]
+texture = ExtResource("3_6dynd")
+
 [node name="Left2" type="Marker2D" parent="Connections"]
 script = ExtResource("2_0bwyb")
 direction = "LEFT"
+
+[node name="Sprite2D" type="Sprite2D" parent="Connections/Left2"]
+texture = ExtResource("3_6dynd")
 
 [node name="Up" type="Marker2D" parent="Connections"]
 script = ExtResource("2_0bwyb")
 direction = "UP"
 
+[node name="Sprite2D" type="Sprite2D" parent="Connections/Up"]
+texture = ExtResource("3_6dynd")
+
 [node name="Up2" type="Marker2D" parent="Connections"]
 script = ExtResource("2_0bwyb")
 direction = "UP"
+
+[node name="Sprite2D" type="Sprite2D" parent="Connections/Up2"]
+texture = ExtResource("3_6dynd")
 
 [node name="ColorRect" type="ColorRect" parent="."]
 modulate = Color(1, 1, 1, 0.717647)

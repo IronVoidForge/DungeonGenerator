@@ -41,10 +41,7 @@ func update_line():
 		current_point2.in_use = false
 
 	var closest_points = find_closest_points(room1, room2)
-#	print("point1")
-#	print(closest_points[0].global_position)
-#	print("point2")
-#	print(closest_points[1].global_position)
+
 	var point1 = closest_points[0]
 	var point2 = closest_points[1]
 	if point1 and point2:

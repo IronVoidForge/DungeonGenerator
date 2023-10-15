@@ -2,14 +2,14 @@
 
 [ext_resource type="Script" path="res://DungeonGenerator/MainGeneratorScene/Generator.gd" id="1_npvb3"]
 [ext_resource type="Script" path="res://dungeonlayouteditor/Camera2D.gd" id="2_eeqrw"]
-[ext_resource type="PackedScene" path="res://DungeonGenerator/LayoutRepo/LVL1/1.tscn" id="2_v1a4p"]
+[ext_resource type="PackedScene" path="res://DungeonGenerator/LayoutRepo/LVL1/6.tscn" id="2_xmp37"]
 [ext_resource type="Texture2D" uid="uid://ogdx8b62cxh4" path="res://assets/dungeon/floors/floors1/FloorRepeater.png" id="4_fn36f"]
 [ext_resource type="TileSet" uid="uid://pcxejavgi8wk" path="res://assets/dungeon/walls/walls1/tileset_Walls1.tres" id="5_rqxu8"]
 [ext_resource type="TileSet" uid="uid://bhgxw71uumtfg" path="res://DungeonGenerator/RoomPrefabs/BasicTile.tres" id="10_431lo"]
 
 [node name="Generator" type="Node2D"]
 script = ExtResource("1_npvb3")
-layout = ExtResource("2_v1a4p")
+layout = ExtResource("2_xmp37")
 
 [node name="Camera2D" type="Camera2D" parent="."]
 zoom = Vector2(0.5, 0.5)

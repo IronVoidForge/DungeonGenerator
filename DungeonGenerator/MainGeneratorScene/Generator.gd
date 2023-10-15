@@ -111,9 +111,11 @@ func create_hallways() -> void:
 	initialize_astar_grid()
 	var cells_to_update = []
 	for con in get_tree().get_nodes_in_group("connections"):
-		update_astar_grid_for_tilemap()
+#		update_astar_grid_for_tilemap()
 		var start_point = con.get_point_position(0)
 		var end_point = con.get_point_position(1)
+		start_point = snap_point(start_point)
+		end_point = snap_point(end_point)
 		room_extension(con)
 	# Get the cell positions for the start and end points
 		var start_cell = floor_tilemap.local_to_map(floor_tilemap.to_local(start_point))
@@ -136,9 +138,10 @@ func create_hallways() -> void:
 
 func extend_room_from_point(point, direction):
 	var extension_length_cells = 8  # 8 cells
-	var hallway_width_cells = 2
+	var hallway_width_cells = 4
 	var start_cell = Vector2()
 	var end_cell = Vector2()
+	point = snap_point(point)
 	point = floor_tilemap.local_to_map(point)  # Convert point from world position to cell position
 
 	if direction == "DOWN":
@@ -168,6 +171,7 @@ func room_extension(con):
 	extend_room_from_point(con.get_point_position(0), con.current_point1.direction)
 	# Extend from second connection point
 	extend_room_from_point(con.get_point_position(1), con.current_point2.direction)
+	
 func set_tile_at_world_positions(cells: Array):
 	floor_tilemap.set_cells_terrain_connect(0, cells, 0, 0, true)
 	
@@ -209,8 +213,9 @@ func draw_full_dungeon():
 	expand_border(wall_thickness)
 	print("walls thick done")
 	place_doors()
-	for room in get_tree().get_nodes_in_group("pickable"):
-		room.queue_free()
+	layout_instance.queue_free()
+#	for room in get_tree().get_nodes_in_group("pickable"):
+#		room.queue_free()
 
 func draw_from_prefab(prefab: Node2D):
 	var cells_to_update = []
@@ -228,26 +233,8 @@ func draw_from_prefab(prefab: Node2D):
 	set_tile_at_world_positions(cells_to_update)
 	
 func place_doors():
-	for con in get_tree().get_nodes_in_group("connections"):
-		var door1 = door.instantiate()
-		var door2 = door.instantiate()
-		var connection_point1 = con.current_point1
-		var connection_point2 = con.current_point2
-		doors.add_child(door1)
-		doors.add_child(door2)
-		turn_doors(connection_point1, door1)
-		turn_doors(connection_point2, door2)
-
-func turn_doors(connection, mydoor):
-	mydoor.global_position = connection.global_position
-	if connection.direction == "DOWN":
-		mydoor.rotation = 0
-	if connection.direction == "LEFT":
-		mydoor.rotation = PI/2
-	if connection.direction == "UP":
-		mydoor.rotation = PI
-	if connection.direction == "RIGHT":
-		mydoor.rotation = 3*PI/2
+	for prefab in get_tree().get_nodes_in_group("prefabs"):
+		prefab.add_doors()
 
 func create_walls() -> void:
 	for cell in floor_tilemap.get_used_cells(0):
@@ -278,3 +265,6 @@ func expand_border(thickness: int) -> void:
 	var all_wall_cells = original_wall_cells.keys()
 	wall_tilemap.set_cells_terrain_connect(0, all_wall_cells, 0, 0, true)
 
+func snap_point(point):
+	point = round(point/16.)*16
+	return point

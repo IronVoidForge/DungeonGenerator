@@ -5,7 +5,7 @@ var is_connect_mode = false
 var is_rearrange_mode = false
 var last_position = Vector2()
 var grid_size = 16
-var spacing = 128+64
+var spacing = 128
 var is_sized = false
 var settled = false
 @onready var connection_container = $Connections
@@ -19,6 +19,8 @@ signal body_added_to_tree
 signal position_changed
 
 func _ready():
+	snap_to_grid()
+	settled = false
 	if not is_sized:
 		collision_shape.shape.size = Vector2(room_envelope.x+ spacing*2, room_envelope.y + spacing*2)
 		is_sized = true
@@ -54,6 +56,7 @@ func _wake_all_rigid_bodies():
 				if node is RigidBody2D:
 					collision_shape.disabled = false
 					node.sleeping = false
+					snap_to_grid()
 			await get_tree().create_timer(0.125).timeout
 
 func get_unused_connections():
