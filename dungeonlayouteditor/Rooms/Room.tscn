@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=3 uid="uid://bqhsfc8id16x1"]
 
-[ext_resource type="Script" path="res://dungeonlayouteditor/Rooms/Room.gd" id="1_x1ygx"]
-[ext_resource type="Script" path="res://dungeonlayouteditor/Rooms/room_buttons/ConnectionPoint.gd" id="2_0bwyb"]
+[ext_resource type="Script" path="res://dungeonlayouteditor/rooms/room.gd" id="1_x1ygx"]
+[ext_resource type="Script" path="res://dungeonlayouteditor/rooms/room_buttons/ConnectionPoint.gd" id="2_0bwyb"]
 [ext_resource type="Texture2D" uid="uid://dqgayo1djqyk8" path="res://assets/dungeon/marker.png" id="3_6dynd"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_0qt2d"]

@@ -24,4 +24,5 @@ func _process(delta):
 	if Input.is_key_pressed(KEY_E):
 		zoom += Vector2(zoom_speed, zoom_speed)
 	if Input.is_key_pressed(KEY_Q):
-		zoom -= Vector2(zoom_speed, zoom_speed)
+		if zoom >= Vector2(.1, .1):
+			zoom -= Vector2(zoom_speed, zoom_speed)

@@ -1,0 +1,37 @@
+[gd_scene load_steps=7 format=3 uid="uid://tqxjvds2x68i"]
+
+[ext_resource type="Script" path="res://dungeon_generator/MainGeneratorScene/Generator.gd" id="1_ggy6c"]
+[ext_resource type="PackedScene" path="res://dungeon_generator/layout_repo/lvl_1/6.tscn" id="2_u5e6v"]
+[ext_resource type="Script" path="res://dungeonlayouteditor/Camera2D.gd" id="3_ctnyx"]
+[ext_resource type="Texture2D" uid="uid://ogdx8b62cxh4" path="res://assets/dungeon/floors/floors1/FloorRepeater.png" id="4_nug4i"]
+[ext_resource type="TileSet" uid="uid://bhgxw71uumtfg" path="res://dungeon_generator/room_prefabs/BasicTile.tres" id="5_87pa5"]
+[ext_resource type="TileSet" uid="uid://pcxejavgi8wk" path="res://assets/dungeon/walls/walls1/tileset_Walls1.tres" id="6_2ctrr"]
+
+[node name="Generator" type="Node2D"]
+script = ExtResource("1_ggy6c")
+layout = ExtResource("2_u5e6v")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+zoom = Vector2(0.5, 0.5)
+script = ExtResource("3_ctnyx")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+modulate = Color(0.392157, 0.466667, 0.67451, 0.992157)
+offset_left = -5664.0
+offset_top = -4192.0
+offset_right = 5696.0
+offset_bottom = 4224.0
+texture = ExtResource("4_nug4i")
+stretch_mode = 1
+
+[node name="Floors" type="TileMap" parent="."]
+tile_set = ExtResource("5_87pa5")
+format = 2
+
+[node name="Walls" type="TileMap" parent="."]
+tile_set = ExtResource("6_2ctrr")
+format = 2
+
+[node name="Doors" type="Node2D" parent="."]
+
+[node name="Prefabs" type="Node2D" parent="."]

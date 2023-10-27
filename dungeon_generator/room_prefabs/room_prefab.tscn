@@ -1,0 +1,50 @@
+[gd_scene load_steps=7 format=3 uid="uid://cf0b8o4eden78"]
+
+[ext_resource type="Texture2D" uid="uid://cqnykaf43w178" path="res://dungeon_generator/room_prefabs/lvl_1/assets/TilesetInteriorFloor.png" id="1_qk0q8"]
+[ext_resource type="Script" path="res://dungeon_generator/room_prefabs/room_prefab.gd" id="2_plec0"]
+[ext_resource type="PackedScene" uid="uid://duaed87rmoh0x" path="res://dungeon_building_blocks/door.tscn" id="3_c2akf"]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_2bwdy"]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_1qdo6"]
+texture = ExtResource("1_qk0q8")
+0:6/0 = 0
+1:6/0 = 0
+2:6/0 = 0
+2:7/0 = 0
+2:8/0 = 0
+1:8/0 = 0
+0:8/0 = 0
+0:7/0 = 0
+1:7/0 = 0
+
+[sub_resource type="TileSet" id="TileSet_cgjio"]
+sources/0 = SubResource("TileSetAtlasSource_2bwdy")
+sources/1 = SubResource("TileSetAtlasSource_1qdo6")
+
+[node name="RoomPrefab" type="TileMap"]
+tile_set = SubResource("TileSet_cgjio")
+format = 2
+script = ExtResource("2_plec0")
+door = ExtResource("3_c2akf")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+self_modulate = Color(0.709804, 0, 0.286275, 0.141176)
+offset_left = -384.0
+offset_top = -256.0
+offset_right = 384.0
+offset_bottom = 256.0
+
+[node name="Doors" type="Node2D" parent="."]
+
+[node name="Enemies" type="Node2D" parent="."]
+
+[node name="Items" type="Node2D" parent="."]
+
+[node name="ConnectionPoints" type="Node2D" parent="."]
+
+[node name="PlayerDetector" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PlayerDetector"]
+
+[connection signal="body_entered" from="PlayerDetector" to="." method="_on_player_detector_body_entered"]

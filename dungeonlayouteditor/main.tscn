@@ -1,9 +1,9 @@
 [gd_scene load_steps=6 format=3 uid="uid://dhvs3n5ifdpcw"]
 
 [ext_resource type="Script" path="res://dungeonlayouteditor/main.gd" id="1_cocx4"]
-[ext_resource type="Script" path="res://dungeonlayouteditor/Layout.gd" id="2_nj1ss"]
-[ext_resource type="Script" path="res://dungeonlayouteditor/EditorObject.gd" id="4_avkfv"]
-[ext_resource type="Script" path="res://dungeonlayouteditor/Camera2D.gd" id="4_m7qmb"]
+[ext_resource type="Script" path="res://dungeonlayouteditor/layout.gd" id="2_nj1ss"]
+[ext_resource type="Script" path="res://dungeonlayouteditor/editor_object.gd" id="4_avkfv"]
+[ext_resource type="Script" path="res://dungeonlayouteditor/camera2d.gd" id="4_m7qmb"]
 [ext_resource type="PackedScene" uid="uid://dvn1tavqre8gn" path="res://dungeonlayouteditor/room_select.tscn" id="5_orgbc"]
 
 [node name="Main" type="Node2D"]

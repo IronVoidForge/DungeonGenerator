@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://c62caa4f7jn6u"]
 
-[ext_resource type="PackedScene" uid="uid://bqhsfc8id16x1" path="res://dungeonlayouteditor/Rooms/Room.tscn" id="1_3m3u6"]
+[ext_resource type="PackedScene" uid="uid://bqhsfc8id16x1" path="res://dungeonlayouteditor/rooms/room.tscn" id="1_3m3u6"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_maqod"]
 size = Vector2(384, 416)
